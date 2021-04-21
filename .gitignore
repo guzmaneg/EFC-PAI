@@ -1,0 +1,14 @@
+
+*.xml
+*.properties
+Persona/build/classes/.netbeans_automatic_build
+Persona/build/classes/.netbeans_update_resources
+Persona/build/classes/persona/MiCalendario.class
+Persona/build/classes/persona/MiCalendarioException.class
+Persona/build/classes/persona/Persona.class
+Persona/build/classes/persona/PersonaException.class
+Persona/dist/Persona.jar
+TestPersona/build/classes/.netbeans_automatic_build
+TestPersona/build/classes/.netbeans_update_resources
+TestPersona/build/classes/testpersona/TestPersona.class
+TestPersona/manifest.mf
