@@ -5,14 +5,13 @@
  */
 package persona;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  *
  * @author gguzm
  */
 public class Persona {
+    
+    public static final String DELIM = "\t";
     
     private long dni;
     
@@ -20,7 +19,9 @@ public class Persona {
     
     private String apellido;
     
-    private MiCalendario fechaNac;
+    protected MiCalendario fechaNac;
+    
+    private char sexo;
 
     // Suits de constructores
     public Persona() {
@@ -81,6 +82,41 @@ public class Persona {
     public void setFechaNac(MiCalendario fechaNac) {
         this.fechaNac = fechaNac;
     }
+    
+    public char getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(char sexo) throws PersonaException {
+        sexo = Character.toUpperCase(sexo);
+        if (sexo!='F' && sexo!='M') {
+            throw new PersonaException("El sexo debe ser F o M (o f o m)"); 
+        }
+        this.sexo = sexo;
+        
+        
+        /*
+        if (sexo=='f' || sexo=='F' || sexo=='m' || sexo=='M') {
+            this.sexo = Character.toUpperCase(sexo);
+        }
+        else {
+           throw new PersonaException("El sexo debe ser F o M (o f o m)"); 
+        }
+        */
+        
+        
+    }
+
+    @Override
+    public String toString() {
+        String nombreStr = nombre.length()>20?nombre.substring(0, 20):nombre;
+        
+        return String.format("%8d", dni) + DELIM +
+                String.format("%20s", nombreStr) + DELIM +
+                String.format("%15s", apellido) + DELIM +
+                fechaNac;
+    }
+
     
     
 }

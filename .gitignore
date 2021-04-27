@@ -12,3 +12,16 @@ TestPersona/build/classes/.netbeans_automatic_build
 TestPersona/build/classes/.netbeans_update_resources
 TestPersona/build/classes/testpersona/TestPersona.class
 TestPersona/manifest.mf
+DAO/build/classes/.netbeans_automatic_build
+DAO/build/classes/.netbeans_update_resources
+DAO/build/classes/dao/AlumnoDAOSQL.class
+DAO/build/classes/dao/AlumnoDAOTXT.class
+DAO/build/classes/dao/DAO.class
+DAO/build/classes/dao/DAOException.class
+DAO/dist/DAO.jar
+Persona/build/classes/persona/Alumno.class
+TestDAO/build/classes/.netbeans_automatic_build
+TestDAO/alumnos.txt
+TestDAO/manifest.mf
+Persona/build/classes/persona/AlumnoException.class
+TestDAO/build/classes/.netbeans_update_resources
