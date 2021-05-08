@@ -44,12 +44,14 @@ public class Alumno extends Persona {
         this.promedio = promedio;
     }
 
-    public Alumno(long dni, String nombre, String apellido, MiCalendario fechaNac, MiCalendario fechaIng, Integer cantMatAprob, Double promedio) 
+    public Alumno(long dni, String nombre, String apellido, MiCalendario fechaNac, MiCalendario fechaIng, 
+            Integer cantMatAprob, Double promedio, char sexo, boolean activo) 
             throws PersonaException {
-        super(dni, nombre, apellido, fechaNac);
+        super(dni, nombre, apellido, fechaNac, sexo);
         setFechaIng(fechaIng);
         this.cantMatAprob = cantMatAprob;
         this.promedio = promedio;
+        this.activo = activo;
     }
     
 
@@ -109,5 +111,5 @@ public class Alumno extends Persona {
                 String.format("%5.2f", promedio) + DELIM +
                 (activo?'A':'B');
     }
- 
+
 }

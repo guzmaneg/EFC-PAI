@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.util.List;
+
 /**
  *
  * @author gguzm
@@ -19,5 +21,9 @@ public abstract class DAO<T,K> {
     public abstract void delete(K clave) throws DAOException;    
     
     public abstract boolean existe(K clave) throws DAOException;
+    
+    public abstract List<T> findAll(Boolean activos) throws DAOException;
+    
+    // TODO close
 }
 

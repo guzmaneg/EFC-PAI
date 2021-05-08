@@ -40,7 +40,7 @@ public class TestPersona {
 
             Persona otraPersona = new Persona(30, "Juana", "Martinez");
 
-            Persona otraPersona2 = new Persona(40, "Miguel", "Juarez", null);
+            Persona otraPersona2 = new Persona(40, "Miguel", "Juarez", null, 'm');
             otraPersona2.setSexo('f');
             otraPersona2.setFechaNac(new MiCalendario(2, 10, 2021));
             
@@ -48,7 +48,7 @@ public class TestPersona {
             
             MiCalendario fechaNac = new MiCalendario(23, 8, 1992);
             MiCalendario fechaIng = new MiCalendario(1, 3, 1993);
-            Alumno alu = new Alumno(4004600, "Juan Luis Juan Luis Juan Luis Juan Luis", "Perez", fechaNac, fechaIng, 5, 0.335);
+            Alumno alu = new Alumno(4004600, "Juan Luis Juan Luis Juan Luis Juan Luis", "Perez", fechaNac, fechaIng, 5, 0.335, 'M', true);
             alu.setSexo('M');
             //alu.setActivo(false);
             

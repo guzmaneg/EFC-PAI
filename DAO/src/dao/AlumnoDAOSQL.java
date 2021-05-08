@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import persona.Alumno;
 
 /**
@@ -12,6 +13,10 @@ import persona.Alumno;
  * @author gguzm
  */
 public class AlumnoDAOSQL extends DAO<Alumno, Long>{
+
+    AlumnoDAOSQL() {
+        
+    }
 
     @Override
     public void create(Alumno entidad) throws DAOException {
@@ -38,6 +43,11 @@ public class AlumnoDAOSQL extends DAO<Alumno, Long>{
 
     @Override
     public boolean existe(Long clave) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Alumno> findAll(Boolean activos) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

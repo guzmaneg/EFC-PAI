@@ -37,12 +37,13 @@ public class Persona {
         this.apellido = apellido;
     }
 
-    public Persona(long dni, String nombre, String apellido, MiCalendario fechaNac) 
+    public Persona(long dni, String nombre, String apellido, MiCalendario fechaNac, char sexo) 
             throws PersonaException {
         setDni(dni);
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
+        setSexo(sexo);
     }
 
     public long getDni() {
@@ -114,9 +115,8 @@ public class Persona {
         return String.format("%8d", dni) + DELIM +
                 String.format("%20s", nombreStr) + DELIM +
                 String.format("%15s", apellido) + DELIM +
-                fechaNac;
+                fechaNac + DELIM +
+                sexo;
     }
-
-    
     
 }

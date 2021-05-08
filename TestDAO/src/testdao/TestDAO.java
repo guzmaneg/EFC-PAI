@@ -8,6 +8,10 @@ package testdao;
 import dao.AlumnoDAOTXT;
 import dao.DAO;
 import dao.DAOException;
+import dao.DAOFactory;
+import dao.DAOFactoryException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persona.Alumno;
@@ -26,16 +30,18 @@ public class TestDAO {
      */
     public static void main(String[] args) {
         try {
-            AlumnoDAOTXT dao = new AlumnoDAOTXT("alumnos.txt");
+            //AlumnoDAOTXT dao = new AlumnoDAOTXT("alumnos.txt");
+            Map<String, String> config = new HashMap<>();
+            DAO dao = DAOFactory.getIntance().createDAO(config);
 
             MiCalendario fechaNac = new MiCalendario(23, 8, 1992);
             MiCalendario fechaIng = new MiCalendario(1, 3, 1993);
-            Alumno alu = new Alumno(24004601, "Juan Luis Juan Luis Juan Luis Juan Luis", "Perez", fechaNac, fechaIng, 5, 0.335);
+            Alumno alu = new Alumno(24004601, "nombre", "apellido", fechaNac, fechaIng, 55, 7.33, 'M', true);
             alu.setSexo('M');
 
             dao.create(alu);
             
-        } catch (DAOException | PersonaException | MiCalendarioException ex) {
+        } catch (DAOException | PersonaException | MiCalendarioException | DAOFactoryException ex) {
             Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
