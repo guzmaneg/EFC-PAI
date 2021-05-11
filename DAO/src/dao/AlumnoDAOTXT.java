@@ -178,5 +178,16 @@ public class AlumnoDAOTXT extends DAO<Alumno, Long>{
         
         return alumnos;
     }
+
+    @Override
+    public void close() throws DAOException {
+
+        try {
+            raf.close();
+        } catch (IOException ex) {
+            Logger.getLogger(AlumnoDAOTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DAOException("Error al cerrar el archivo ==> "+ex.getMessage());
+        }
+    }
     
 }

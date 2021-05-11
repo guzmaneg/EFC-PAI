@@ -24,6 +24,8 @@ public abstract class DAO<T,K> {
     
     public abstract List<T> findAll(Boolean activos) throws DAOException;
     
+    public abstract void close() throws DAOException;
+    
     // TODO close
 }
 
