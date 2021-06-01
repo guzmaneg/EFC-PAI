@@ -5,6 +5,7 @@
  */
 package persona;
 
+import com.sun.javafx.css.CalculatedValue;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -31,6 +32,10 @@ public class MiCalendario extends GregorianCalendar {
         
     }
 
+    public MiCalendario(Calendar cal) {
+        setTimeInMillis(cal.getTimeInMillis());
+    }
+    
     public MiCalendario(Date date) {
         setTimeInMillis(date.getTime());
     }
