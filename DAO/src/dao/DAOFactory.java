@@ -27,8 +27,8 @@ public class DAOFactory {
     
     private static DAOFactory instance;
     
-    private static AlumnoDAOTXT daoTXT;
-    private static AlumnoDAOSQL daoSQL;
+    private AlumnoDAOTXT daoTXT;
+    private AlumnoDAOSQL daoSQL;
     
     private DAOFactory() {
     }
@@ -46,14 +46,19 @@ public class DAOFactory {
             switch (tipoDAO) {
                 case TIPO_DAO_TXT:
                     String filename = config.get(FILE_NAME);
-                    
-                    return daoTXT==null?new AlumnoDAOTXT(filename):daoTXT;
+                    if (daoTXT==null){
+                        daoTXT = new AlumnoDAOTXT(filename);
+                    }
+                    return daoTXT;
                 case "SQL":
                     String url = config.get(URL_DB);
                     String usuario = config.get(USUARIO_DB);
                     String pass = config.get(PASS_DB);
                     
-                    return daoSQL==null?new AlumnoDAOSQL(url, usuario, pass):daoSQL;
+                    if (daoSQL==null){
+                        daoSQL = new AlumnoDAOSQL(url, usuario, pass);
+                    }
+                    return daoSQL;
                 default:
                     throw new DAOFactoryException("Tipo de DAO NO implementado");
             }
