@@ -22,6 +22,7 @@ public class AlumnoModel extends AbstractTableModel {
 
     public void setAlumnos(List<Alumno> alumnos) {
         this.alumnos = alumnos;
+        refrescarModelo();
     }
     
     @Override
