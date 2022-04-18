@@ -1,0 +1,5 @@
+ 4004600	Juan Luis Juan Luis 	          Perez	23/ 8/1992	 1/ 3/1993	 5	 0,34	A
+ 4004600	Juan Luis Juan Luis 	          Perez	23/ 8/1992	 1/ 3/1993	 5	 0,34	A
+ 4004600	Juan Luis Juan Luis 	          Perez	23/ 8/1992	 1/ 3/1993	 5	 0,34	A
+24004600	Juan Luis Juan Luis 	          Perez	23/ 8/1992	 1/ 3/1993	 5	 0,34	A
+24004601	Juan Luis Juan Luis 	          Perez	23/ 8/1992	 1/ 3/1993	 5	 0,34	A
