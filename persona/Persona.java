@@ -1,5 +1,4 @@
 package test;
-import java.util.Calendar;
 
 import exceptions.PersonaException;
 import exceptions.PersonaNombreException;
@@ -8,11 +7,11 @@ public class Persona {
 	
 	private Integer dni;
 	
-	private String nombre;
+	protected String nombre;
 
-	private String apellido;
+	protected String apellido;
 	
-	private MiCalendario fecNac;
+	protected MiCalendario fecNac;
 	
 	public Persona() {
 	}
@@ -52,7 +51,10 @@ public class Persona {
 	}
 
 	public String getNombre() {
-		return nombre;
+		if (nombre==null) {
+			return nombre;
+		}
+		return nombre.trim();
 	}
 
 	public void setNombre(String nombre) throws PersonaNombreException {
@@ -81,4 +83,11 @@ public class Persona {
 	public void setFecNac(MiCalendario fecNac) {
 		this.fecNac = fecNac;
 	}
+
+	@Override
+	public String toString() {
+		return "DNI = "+dni+System.lineSeparator()+
+				"Nombre = "+getNombre()+" - "+getApellido()+System.lineSeparator();
+	}
+	
 }
