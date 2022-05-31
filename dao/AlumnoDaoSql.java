@@ -1,55 +1,67 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import test.Alumno;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import persona.Alumno;
+import persona.AlumnoException;
+import persona.MiCalendario;
+import persona.PersonaException;
+import persona.PersonaNombreException;
 
 /**
  *
- * @author laboratorios
+ * @author gguzm
  */
-public class AlumnoDaoSql extends DAO<Alumno, Integer>{
-	private Connection conn;
+public class AlumnoDaoSql extends DAO<Alumno, Integer> {
+
+    private Connection conn;
     private PreparedStatement insertPS;
     private PreparedStatement selectPS;
-    
-    AlumnoDAOSQL(String url, String usuario, String password) throws DAOException {
-        
+
+    public AlumnoDaoSql(String conexion, String usuario, String clave) throws DAOException {
         try {
-            conn = DriverManager.getConnection(url, usuario, password);
+            conn = DriverManager.getConnection(conexion, usuario, clave);
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DAOException("Error al conectarse con la BD ==> "+ex.getMessage());
+            throw new DAOException("Error al conectarse a la BD => " + ex.getMessage());
         }
-        String insertSQL = "INSERT INTO alumnos\n" +
-                "(DNI,\n" +
-                "NOMBRE,\n" +
-                "APELLIDO,\n" +
-                "FEC_NAC,\n" +
-                "SEXO,\n" +
-                "PROMEDIO)\n" +
-                "VALUES\n" +
-                "(?,?,?,?,?,?);";
-        
+
+        System.out.println("Conexión OK!!!");
+
+        String insertSQL = "INSERT INTO alumnos\n"
+                + "(DNI,\n"
+                + "NOMBRE,\n"
+                + "APELLIDO,\n"
+                + "FEC_NAC,\n"
+                + "SEXO,\n"
+                + "CANT_MAT_APROB,\n"
+                + "PROMEDIO)\n"
+                + "VALUES\n"
+                + "(?,?,?,?,?,?,?);";
+
         try {
             insertPS = conn.prepareStatement(insertSQL);
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DAOException("Error al crear sentencia para INSERT ==> "+ex.getMessage());
+            throw new DAOException("Error al crear sentencia para INSERT ==> " + ex.getMessage());
         }
-         
-        String selectSQL = "SELECT * FROM alumnos where DNI = ?";
+
+        String selectSQL = "select * from alumnos where DNI = ?";
         
         try {
             selectPS = conn.prepareStatement(selectSQL);
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DAOException("Error al crear sentencia para SELECT ==> "+ex.getMessage());
+            throw new DAOException("Error al crear sentencia para SELECT ==> " + ex.getMessage());
         }
-
     }
 
     @Override
@@ -59,76 +71,74 @@ public class AlumnoDaoSql extends DAO<Alumno, Integer>{
             insertPS.setInt(index++, alu.getDni());
             insertPS.setString(index++, alu.getNombre());
             insertPS.setString(index++, alu.getApellido());
-            insertPS.setDate(index++, alu.getFechaNac().toSQLDate());
-            insertPS.setString(index++, String.valueOf(alu.getSexo()));
+            insertPS.setDate(index++, alu.getFecNac().toSQLDate());
+            insertPS.setString(index++, String.valueOf("M"));
+            insertPS.setInt(index++, alu.getCantMatAprob());
             insertPS.setDouble(index++, alu.getPromedio());
-            
+
             insertPS.execute();
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DAOException("Error al insertar en le BD ==>"+ex.getMessage());
+            throw new DAOException("Error al insertar en le BD ==>" + ex.getMessage());
         }
     }
 
     @Override
-    public Alumno read(Long dni) throws DAOException {
-        Alumno alu = null;
+    public Alumno read(Integer dni) throws DAOException {
         try {
             selectPS.setInt(1, dni);
-            ResultSet rs = selectPS.executeQuery();
+            
+            final ResultSet rs = selectPS.executeQuery();
             if (rs.next()) {
-                alu = new Alumno();
-                alu.setDni(dni);
+                Alumno alu = new Alumno();
+                alu.setDni(rs.getInt("DNI"));
                 alu.setNombre(rs.getString("NOMBRE"));
                 alu.setApellido(rs.getString("APELLIDO"));
-                alu.setFechaNac(new MiCalendario(rs.getDate("FEC_NAC")));
-                alu.setSexo(rs.getString("SEXO").charAt(0));
+                alu.setFecNac(new MiCalendario(rs.getDate("FEC_NAC")));
+                alu.setCantMatAprob(rs.getInt("CANT_MAT_APROB"));
                 alu.setPromedio(rs.getDouble("PROMEDIO"));
+                
+                return alu;
             }
-            
-        } catch (SQLException | PersonaException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            // TODO throw new DAOException...
+        } catch (SQLException | PersonaException | PersonaNombreException | AlumnoException ex) {
+            throw new DAOException("Error al leer el alumno ==> "+ ex.getMessage());
         }
         
-        return alu;
+        return null;
     }
 
     @Override
-    public void update(Alumno entidad) throws DAOException{
+    public void update(Alumno entity) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(Integer clave) throws DAOException{
+    public void hardDelete(Integer pk) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean existe(Integer clave) throws DAOException {
+    public void softDelete(Integer pk) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Alumno> findAll(Boolean activos) throws DAOException {
-        List<Alumno> alumnos = new ArrayList<>();
-        
-        alumnos.add(read(24004601));
-        alumnos.add(read(24004602));
-        
-        return alumnos;
+    public List<Alumno> findAll(boolean includeDeleted) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean exist(Integer pk) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void close() throws DAOException {
-
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DAOException("Error al cerrar la BD ==> "+ex.getMessage());
+            throw new DAOException("Error al cerrar la conexión " + ex.getMessage());            
         }
     }
-    
+
 }
