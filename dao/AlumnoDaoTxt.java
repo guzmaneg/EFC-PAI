@@ -56,7 +56,12 @@ public class AlumnoDaoTxt extends DAO<Alumno, Integer>{
 
     @Override
     public void update(Alumno alu) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO
+        // raf.getFilePointer ==> devuelve el puntero con su valor actual
+        
+        // reaf.seek(puntero)
+        
+        //actualizar todo el alumno
     }
 
     @Override
@@ -66,7 +71,12 @@ public class AlumnoDaoTxt extends DAO<Alumno, Integer>{
 
     @Override
     public void softDelete(Integer dni) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Alumno alu = read(dni);
+        if (alu==null) {
+            throw new DAOException("El alumno a eliminar no existe");
+        }
+        alu.setActivo(false);
+        update(alu);
     }
 
     @Override
@@ -97,5 +107,27 @@ public class AlumnoDaoTxt extends DAO<Alumno, Integer>{
         }
         return false;
     }
-    
+    private Alumno str2Alu(String[] campos) throws NumberFormatException, PersonaException, MiCalendarioException {
+        int i=0;
+        Long dniAlu = Long.valueOf(campos[i++].trim());
+        String nombre = campos[i++].trim();
+        
+        String apellido = campos[i++].trim();
+        
+        String[] fecha = campos[i++].split("/");
+        MiCalendario fechaNac = new MiCalendario(Integer.valueOf(fecha[0].trim()), Integer.valueOf(fecha[1].trim()), Integer.valueOf(fecha[2]));
+        
+        char sexo = campos[i++].charAt(0);
+        
+        fecha = campos[i++].split("/");
+        MiCalendario fechaIng = new MiCalendario(Integer.valueOf(fecha[0].trim()), Integer.valueOf(fecha[1].trim()), Integer.valueOf(fecha[2]));
+        
+        Integer cantMatAprob = Integer.valueOf(campos[i++].trim());
+        Double promedio = Double.valueOf(campos[i++].trim().replaceAll(",", "."));
+        
+        
+        boolean activo = campos[i].equals("A");
+        
+        return new Alumno(dniAlu, nombre, apellido, fechaNac, fechaIng, cantMatAprob, promedio, sexo, activo);
+    }
 }
