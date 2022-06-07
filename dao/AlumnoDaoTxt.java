@@ -4,6 +4,8 @@
  */
 package dao;
 
+import exceptions.MiCalendarioExcpetion;
+import exceptions.PersonaException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import test.Alumno;
+import test.MiCalendario;
 import test.Persona;
 
 /**
@@ -22,7 +25,7 @@ public class AlumnoDaoTxt extends DAO<Alumno, Integer>{
 
     private RandomAccessFile raf;
             
-    public AlumnoDaoTxt(String fullPath) throws DAOException {
+    AlumnoDaoTxt(String fullPath) throws DAOException {
         File file = new File(fullPath);
         
         try {
@@ -107,7 +110,7 @@ public class AlumnoDaoTxt extends DAO<Alumno, Integer>{
         }
         return false;
     }
-    private Alumno str2Alu(String[] campos) throws NumberFormatException, PersonaException, MiCalendarioException {
+    private Alumno str2Alu(String[] campos) throws NumberFormatException, PersonaException, MiCalendarioExcpetion {
         int i=0;
         Long dniAlu = Long.valueOf(campos[i++].trim());
         String nombre = campos[i++].trim();

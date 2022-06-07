@@ -1,43 +1,42 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package testdao;
+package efc.testdao;
 
-import dao.AlumnoDaoSql;
 import dao.DAO;
 import dao.DAOException;
+import dao.DAOFactory;
+import dao.DAOFactoryException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import persona.Alumno;
-import persona.AlumnoException;
-import persona.MiCalendario;
-import persona.MiCalendarioExcpetion;
-import persona.Persona;
-import persona.PersonaException;
-import persona.PersonaNombreException;
+import test.Alumno;
 
 /**
  *
- * @author gguzm
+ * @author laboratorios
  */
 public class TestDAO {
-
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
+        DAOFactory factory = DAOFactory.getInstance();
+        Map<String, String> config = new HashMap<String, String>();
+//        config.put(DAOFactory.TIPO_DAO, DAOFactory.TIPO_DAO_TXT);
+//        config.put(DAOFactory.PATH_FILE, "alumnos.txt");
+        config.put(DAOFactory.TIPO_DAO, DAOFactory.TIPO_DAO_SQL);
+        config.put(DAOFactory.SQL_CONN, "root:@localhost:3306:");
         try {
-            DAO<Alumno, Integer> dao = new AlumnoDaoSql("jdbc:mysql://localhost:3306/efc", "root", "root");
-            Persona persona = new Persona(5, "Javier Carlos", "Ramirez", new MiCalendario(1, 1, 2001));
-            dao.create(new Alumno(persona, new MiCalendario(1, 1, 2020), 2, 2.25));
-            
-            Alumno alu = dao.read(24004621);
-            System.out.println("Alumno leído ==> "+ alu);
-        } catch (DAOException | MiCalendarioExcpetion | PersonaException | PersonaNombreException | AlumnoException ex) {
+            DAO dao = factory.crearDAO(config);
+            dao.create(new Alumno());
+        } catch (DAOFactoryException ex) {
+            Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
             Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println("OK");
     }
     
 }
