@@ -17,7 +17,7 @@ public class AluTableModel extends AbstractTableModel {
 
     private List<Alumno> alumnos;
     
-    private static final String[] columnas = {"DNI", "Nombre", "Apellido"};
+    private static final String[] columnas = {"DNI", "Nombre", "Apellido", "Estado"};
 
     public AluTableModel() {
         alumnos = new ArrayList<>();
@@ -51,6 +51,8 @@ public class AluTableModel extends AbstractTableModel {
                 return alu.getNombre();
             case 2:
                 return alu.getApellido();
+            case 3:
+                return alu.getActivo()?"Activo":"Inactivo";
             default:
                 return null;
         }

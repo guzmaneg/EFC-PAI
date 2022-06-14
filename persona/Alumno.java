@@ -11,7 +11,8 @@ public class Alumno extends Persona {
 	private Integer cantMatAprob;
 	
 	private Double promedio;
-
+        
+        private boolean activo;
 	
 	public Alumno() {
 		super();
@@ -39,6 +40,10 @@ public class Alumno extends Persona {
 		setPromedio(promedio);
 	}
 
+    public Alumno(Long dniAlu, String nombre, String apellido, MiCalendario fechaNac, MiCalendario fechaIng, Integer cantMatAprob, Double promedio, char sexo, boolean activo) {
+        
+    }
+
 
 	public MiCalendario getFecIng() {
 		return fecIng;
@@ -62,7 +67,7 @@ public class Alumno extends Persona {
 
 	public void setPromedio(Double promedio) throws AlumnoException {
 		if (promedio<0 || promedio>10)  {
-			throw new AlumnoException("El promedio es inválido");
+			throw new AlumnoException("El promedio es invï¿½lido");
 		}
 		
 		this.promedio = promedio;
@@ -73,4 +78,13 @@ public class Alumno extends Persona {
 		return super.toString()+"Promedio = "+getPromedio()+System.lineSeparator()+
 				"Fecha de Ingreso = "+fecIng;
 	}
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
 }
