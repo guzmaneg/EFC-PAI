@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import persona.Alumno;
 import persona.Persona;
 import persona.PersonaInvalidaException;
 import persona.PersonaNombreException;
@@ -19,9 +20,10 @@ import persona.PersonaNombreException;
 public class PersonaTest {
     
     public static void main(String[] args) throws PersonaNombreException {
-        Persona unaPersona = new Persona();
+        Persona unaPersona = new Alumno();
         try {
             unaPersona.setDni(1);
+            ((Alumno)unaPersona).setActivo(true);
         } catch (PersonaInvalidaException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -31,7 +33,7 @@ public class PersonaTest {
 
         Persona otraPersona;
         try {
-            otraPersona = new Persona(24004600);
+            otraPersona = new Alumno(24004600);
             otraPersona.setNombre("José");
         } catch (PersonaInvalidaException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -43,7 +45,7 @@ public class PersonaTest {
         Calendar fechaNac;
         try {
             fechaNac = new GregorianCalendar();
-            maria = new Persona(24004601, "MAria", "", 'F', fechaNac);
+            maria = new Alumno(24004601, "MAria", "", 'F', fechaNac);
         } catch (PersonaNombreException | PersonaInvalidaException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -53,7 +55,7 @@ public class PersonaTest {
         Persona pepe;
         Calendar fechaNacPepe = Calendar.getInstance();
         try {
-            pepe = new Persona(24004602);
+            pepe = new Alumno(24004602);
             pepe.setFechaNac(fechaNacPepe);
         } catch (PersonaInvalidaException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,7 +70,7 @@ public class PersonaTest {
         Persona manuela;
         Calendar fechaNacManu = new GregorianCalendar(2023, Calendar.APRIL, 31);
         try {
-            manuela = new Persona(24004603);
+            manuela = new Alumno(24004603);
             manuela.setFechaNac(fechaNacManu);
         } catch (PersonaInvalidaException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
