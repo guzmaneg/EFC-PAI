@@ -18,6 +18,7 @@ public abstract class Persona {
     private String apellido;
     private char sexo;
     private Calendar fechaNac;
+    // protected String email;
 
     public Persona() {
     }
@@ -91,8 +92,15 @@ public abstract class Persona {
 
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo + ", fechaNac=" + fechaNac + '}';
+        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", "
+                + "sexo=" + sexo + ", fechaNac=" + fechaNac + '}';
     }
     
-    
+    public abstract String getInfoPersona();
+    /*
+    public String getInfoPersona() {
+        
+        return "getInfoPersona";
+    }
+    */
 }

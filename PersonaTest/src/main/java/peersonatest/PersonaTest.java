@@ -4,6 +4,8 @@
  */
 package peersonatest;
 
+import calendario.MiCalendario;
+import calendario.MiCalendarioException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -20,6 +22,7 @@ import persona.PersonaNombreException;
 public class PersonaTest {
     
     public static void main(String[] args) throws PersonaNombreException {
+        /*
         Persona unaPersona = new Alumno();
         try {
             unaPersona.setDni(1);
@@ -67,16 +70,19 @@ public class PersonaTest {
                 pepe.getFechaNac().get(Calendar.MONTH) + "/"+
                 pepe.getFechaNac().get(Calendar.YEAR));
 
+        
+        */
         Persona manuela;
-        Calendar fechaNacManu = new GregorianCalendar(2023, Calendar.APRIL, 31);
+        
         try {
+            Calendar fechaNacManu = new MiCalendario(17, 55, 2023);
             manuela = new Alumno(24004603);
             manuela.setFechaNac(fechaNacManu);
-        } catch (PersonaInvalidaException ex) {
+        } catch (PersonaInvalidaException | MiCalendarioException ex) {
             Logger.getLogger(PersonaTest.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        System.out.println("Datos de Manuela "+manuela.toString());
+        System.out.println("Datos de Manuela "+manuela);
 
     }
 }

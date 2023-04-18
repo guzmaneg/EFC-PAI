@@ -21,6 +21,7 @@ public class Alumno extends Persona {
 
     public Alumno() {
         super();
+        //this.email = "";
     }
 
     public Alumno(int dni) throws PersonaInvalidaException {
@@ -72,7 +73,11 @@ public class Alumno extends Persona {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    
+
+    @Override
+    public String getInfoPersona() {
+        return "";
+    }
     
     
 }

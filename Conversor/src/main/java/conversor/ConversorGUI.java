@@ -6,6 +6,8 @@ package conversor;
 
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 
@@ -13,18 +15,28 @@ import javax.swing.JOptionPane;
  *
  * @author g.guzman
  */
-public class Conversor extends javax.swing.JFrame {
+public class ConversorGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Conversor
      */
-    public Conversor() {
+    public ConversorGUI() {
         initComponents();
         this.setTitle("Mi Conversor");
         this.setLocationRelativeTo(null);
         
+        List<ConversorGenerico> listaConversores = new ArrayList<>();
+        listaConversores.add(new ConversorCentPulg());
+        listaConversores.add(new ConversorMetroKm());
         
-        this.jLabel1.setText("Label 1");
+        for (ConversorGenerico conversor : listaConversores) {
+            conversoresComboBox.addItem(conversor.getTipo());
+        }
+        
+        int selectedIndex = conversoresComboBox.getSelectedIndex();
+        convesorSelected = listaConversores.get(selectedIndex);
+        this.jLabel1.setText(convesorSelected.getLabel1());
+        this.jLabel2.setText(convesorSelected.getLabel2());
     }
 
     /**
@@ -36,24 +48,24 @@ public class Conversor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        centTextField = new javax.swing.JTextField();
+        valor1TextField = new javax.swing.JTextField();
         convertirButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        pulgTextField = new javax.swing.JTextField();
+        valor2TextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        conversoresComboBox = new javax.swing.JComboBox<>();
         comboBoxLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        centTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        valor1TextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                centTextFieldFocusLost(evt);
+                valor1TextFieldFocusLost(evt);
             }
         });
-        centTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+        valor1TextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                centTextFieldKeyPressed(evt);
+                valor1TextFieldKeyPressed(evt);
             }
         });
 
@@ -64,17 +76,15 @@ public class Conversor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Centímetros");
+        jLabel1.setText("Label 1");
 
-        pulgTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        valor2TextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                pulgTextFieldFocusLost(evt);
+                valor2TextFieldFocusLost(evt);
             }
         });
 
-        jLabel2.setText("Pulgadas");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Centímetro/Pulgada", "Metro/KM", "Peso/Dólar" }));
+        jLabel2.setText("Label 2");
 
         comboBoxLabel.setText("Tipo de Conversión");
 
@@ -94,11 +104,11 @@ public class Conversor extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pulgTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(centTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(valor2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(valor1TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(conversoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(114, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -110,17 +120,17 @@ public class Conversor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(conversoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(centTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valor1TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(3, 3, 3)
                 .addComponent(convertirButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pulgTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valor2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(44, 44, 44))
         );
@@ -131,51 +141,51 @@ public class Conversor extends javax.swing.JFrame {
     private void convertirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_convertirButtonActionPerformed
         System.out.println("convertirButtonActionPerformed");
         
-        if (convertirAPulgadas) {
-            convertirAPulgadas();
+        if (convertirAValor2) {
+            convertirAValor2();
         }
         else {
             
         }
     }//GEN-LAST:event_convertirButtonActionPerformed
 
-    private void convertirAPulgadas() throws HeadlessException {
-        System.out.println("Cent: " + centTextField.getText());
-        String cent = centTextField.getText().replace(',', '.');
-        Double centDouble;
+    private void convertirAValor2() throws HeadlessException {
+        System.out.println("Cent: " + valor1TextField.getText());
+        String valor1 = valor1TextField.getText().replace(',', '.');
+        Double valor1Double;
         try {
-            final String toLowerCase = cent.toLowerCase();
+            final String toLowerCase = valor1.toLowerCase();
             
             // if (cent.endsWith("f") || cent.endsWith("d") || cent.endsWith("F") || cent.endsWith("D")) {
             if (toLowerCase.endsWith("f") || toLowerCase.endsWith("d")) {
                 throw new NumberFormatException("Los centímetros tienen un 'f' o una 'd'");
             }
-            centDouble = Double.valueOf(cent);
+            valor1Double = Double.valueOf(valor1);
         } catch (NumberFormatException ex) {
             System.out.println("Error al convertir ==> " + ex.getMessage());
             JOptionPane.showMessageDialog(this, "Error al convertir a Pulgadas", "Error al convertir",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        Double pulgadas = centDouble / UNA_PULGADA;
+        Double valor2 = convesorSelected.convertirValor1Valor2(valor1Double);
         // pulgTextField.setText(String.valueOf(pulgadas));
-        pulgTextField.setText(String.format("%.2f", pulgadas));
+        valor2TextField.setText(String.format("%.2f", valor2));
     }
 
-    private void centTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_centTextFieldFocusLost
-        convertirAPulgadas = true;
-    }//GEN-LAST:event_centTextFieldFocusLost
+    private void valor1TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valor1TextFieldFocusLost
+        convertirAValor2 = true;
+    }//GEN-LAST:event_valor1TextFieldFocusLost
 
-    private void pulgTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pulgTextFieldFocusLost
-        convertirAPulgadas = false;
-    }//GEN-LAST:event_pulgTextFieldFocusLost
+    private void valor2TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valor2TextFieldFocusLost
+        convertirAValor2 = false;
+    }//GEN-LAST:event_valor2TextFieldFocusLost
 
-    private void centTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_centTextFieldKeyPressed
+    private void valor1TextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_valor1TextFieldKeyPressed
         System.out.println("Tecla presionada");
         if (evt.getKeyChar()==KeyEvent.VK_ENTER) {
-            convertirAPulgadas();
+            convertirAValor2();
         }
-    }//GEN-LAST:event_centTextFieldKeyPressed
+    }//GEN-LAST:event_valor1TextFieldKeyPressed
 
     /**
      * @param args the command line arguments
@@ -194,34 +204,35 @@ public class Conversor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Conversor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Conversor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Conversor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Conversor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversorGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Conversor().setVisible(true);
+                new ConversorGUI().setVisible(true);
             }
         });
     }
 
-    private static final double UNA_PULGADA = 2.54;
-    private boolean convertirAPulgadas;
+    private ConversorGenerico convesorSelected;
+    private boolean convertirAValor2;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField centTextField;
     private javax.swing.JLabel comboBoxLabel;
+    private javax.swing.JComboBox<String> conversoresComboBox;
     private javax.swing.JButton convertirButton;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField pulgTextField;
+    private javax.swing.JTextField valor1TextField;
+    private javax.swing.JTextField valor2TextField;
     // End of variables declaration//GEN-END:variables
 }
