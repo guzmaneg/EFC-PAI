@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author g.guzman
  */
-public class Persona {
+public abstract class Persona {
     
     private int dni;
     
@@ -21,6 +21,8 @@ public class Persona {
     
     private MiCalendario fecNac; // 40/04/2023 ==> 10/05/2023
 
+    private char sexo;
+
     public Persona() {
     }
     
@@ -28,11 +30,13 @@ public class Persona {
         setDni(dni);
     }
 
-    public Persona(int dni, String nombre, String apellido, MiCalendario fecNac) throws PersonaNombreException {
-        this.dni = dni;
+    public Persona(int dni, String nombre, String apellido, MiCalendario fecNac, char sexo) 
+            throws PersonaNombreException, PersonaDniException {
+        setDni(dni);
         setNombre(nombre);
         this.apellido = apellido;
         this.fecNac = fecNac;
+        this.sexo = sexo;
     }
     
     public int getDni() {
@@ -71,6 +75,14 @@ public class Persona {
 
     public void setFecNac(MiCalendario fecNac) {
         this.fecNac = fecNac;
+    }
+
+    public char getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
     }
 
     @Override
