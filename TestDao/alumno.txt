@@ -1,0 +1,3 @@
+24004600	Juana               	Gonzalez Martinez Cu	F	05/01/1990
+24004601	Juana la Loca       	Gonzalez Martinez Cu	F	05/01/1990
+24004602	Juana               	Gonzalez Martinez Cu	F	05/01/1990
