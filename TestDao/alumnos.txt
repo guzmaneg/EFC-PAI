@@ -1,0 +1,5 @@
+02345678	Juana Pepe     	Gomez          	F	10/08/1987
+12345678	Juana          	Martinez Cuarta	F	01/03/1999
+77777777	Juana Daniela  	Martinez Cuarta	F	01/03/1999
+00888888	Juana Daniela S	Martinez Cuarta	F	01/03/1999
+92345678	Juana Daniela  	Martinez       	F	10/08/1987
