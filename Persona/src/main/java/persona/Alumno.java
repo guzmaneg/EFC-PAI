@@ -72,8 +72,8 @@ public class Alumno extends Persona {
 
     @Override
     public String toString() {
-        return super.toString()+
-                "Cant. Mat. Aprob = "+cantMatAprob; 
+        return super.toString();
+          
     }
     
     

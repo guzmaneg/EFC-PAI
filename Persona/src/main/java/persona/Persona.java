@@ -13,6 +13,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class Persona {
     
+    public static final String DELIM = "\t";
+    private static final int MAX_NAME_LENGTH = 15;
+    
     private int dni;
     
     private String nombre;
@@ -22,6 +25,7 @@ public abstract class Persona {
     private MiCalendario fecNac; // 40/04/2023 ==> 10/05/2023
 
     private char sexo;
+    
 
     public Persona() {
     }
@@ -87,8 +91,15 @@ public abstract class Persona {
 
     @Override
     public String toString() {
-        return "DNI: "+dni + "- Nombre: "+nombre + 
-                " - Fecha Nac.: "+fecNac; 
+        String nombreTrunc = this.nombre.length()>MAX_NAME_LENGTH?
+                this.nombre.substring(0, MAX_NAME_LENGTH):
+                this.nombre;
+        
+        return StringUtils.leftPad(String.valueOf(dni), 8, '0')+ DELIM +
+                StringUtils.rightPad(nombreTrunc, 15, StringUtils.SPACE)+ DELIM +
+                StringUtils.rightPad(apellido, 15, StringUtils.SPACE)+ DELIM +
+                sexo + DELIM +
+                fecNac; 
     }
     
     
