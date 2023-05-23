@@ -4,6 +4,7 @@
  */
 package calendario;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,6 +26,10 @@ public class MiCalendario extends GregorianCalendar {
         }
     }
 
+    public MiCalendario(Date date) {
+        this.setTimeInMillis(date.getTime());
+    }
+
     public int getDia() {
         return get(Calendar.DAY_OF_MONTH);
     }
@@ -34,11 +39,16 @@ public class MiCalendario extends GregorianCalendar {
     public int getAnio() {
         return get(Calendar.YEAR);
     }
+
+    public static Date toSql(Calendar fecha) {
+    
+        return new Date(fecha.getTimeInMillis());
+    }
     
     @Override
     public String toString() {
      
-        return getDia() + "/" + getMes() + "/" + getAnio();
+        return String.format("%02d/%02d/%04d", getDia(), getMes(), getAnio());
     }
     
 }

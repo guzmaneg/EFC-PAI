@@ -22,6 +22,6 @@ public abstract class DAO<T,K> {
     
     public abstract boolean exist(K id) throws DaoException;
     
-    public abstract List<T> findAll(boolean onlyActive);
-    public abstract void close()throws DaoException;
+    public abstract List<T> findAll(boolean onlyActive) throws DaoException;
+    public abstract void close() throws DaoException;
 }
