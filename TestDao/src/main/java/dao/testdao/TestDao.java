@@ -10,7 +10,11 @@ import dao.AlumnoDaoSQL;
 import dao.AlumnoDaoTXT;
 import dao.DAO;
 import dao.DaoException;
+import dao.DaoFactory;
+import dao.DaoFactoryException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persona.Alumno;
@@ -28,11 +32,25 @@ public class TestDao {
      */
     public static void main(String[] args)  {
         try {
+            // Singleton
+            DaoFactory daoFactory  = DaoFactory.getInstance();
+            
+            
             Alumno alumno = null;
             DAO<Alumno, Integer> dao;
-            alumno = new Alumno(24004603);
-            //dao = new AlumnoDaoTXT("alumno.txt");
-            dao = new AlumnoDaoSQL();
+            alumno = new Alumno(24004608);
+            Map<String, String> configMap = new HashMap<>();
+/*
+            configMap.put(DaoFactory.TIPO_DAO, DaoFactory.TIPO_DAO_TXT);
+            configMap.put(DaoFactory.FILE_PATH, "alumnos.txt");
+*/            
+            configMap.put(DaoFactory.TIPO_DAO, DaoFactory.TIPO_DAO_SQL);
+            configMap.put(DaoFactory.URL_DB, "jdbc:mysql://localhost:3306/universidad");
+            configMap.put(DaoFactory.USER_DB, "root");
+            configMap.put(DaoFactory.PASS_DB, "root");
+            dao = daoFactory.createDao(configMap);
+            
+            //dao = new AlumnoDaoSQL();
 
             alumno.setApellido("Romero");
             alumno.setNombre("Chiquito ");
@@ -54,13 +72,7 @@ public class TestDao {
                         " - " + alumno1.getFechaNac());
             }
 
-        } catch (DaoException ex) {
-            Logger.getLogger(TestDao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PersonaInvalidaException ex) {
-            Logger.getLogger(TestDao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PersonaNombreException ex) {
-            Logger.getLogger(TestDao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MiCalendarioException ex) {
+        } catch (DaoException | PersonaInvalidaException | PersonaNombreException | MiCalendarioException | DaoFactoryException ex) {
             Logger.getLogger(TestDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

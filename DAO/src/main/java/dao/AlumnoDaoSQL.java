@@ -29,9 +29,9 @@ public class AlumnoDaoSQL extends DAO<Alumno,Integer>{
     private PreparedStatement psInsert;
     private PreparedStatement psUpdate;
     
-    public AlumnoDaoSQL() throws DaoException {
+    AlumnoDaoSQL(String url, String user, String pwd) throws DaoException {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/universidad", "root", "root");
+            conn = DriverManager.getConnection(url, user, pwd);
         } catch (SQLException ex) {
             Logger.getLogger(AlumnoDaoSQL.class.getName()).log(Level.SEVERE, null, ex);
             throw new DaoException("Error al conectarse a la BD ==>"+ex.getLocalizedMessage());
