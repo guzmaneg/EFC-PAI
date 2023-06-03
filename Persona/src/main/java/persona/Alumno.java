@@ -72,7 +72,9 @@ public class Alumno extends Persona {
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString()+DELIM+
+                fecIng+DELIM+
+                String.format("%02d", cantMatAprob);
           
     }
     

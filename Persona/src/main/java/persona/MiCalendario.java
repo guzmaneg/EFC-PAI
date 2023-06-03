@@ -4,6 +4,7 @@
  */
 package persona;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -26,6 +27,12 @@ public class MiCalendario extends GregorianCalendar {
         }
     }
 
+    public MiCalendario(Date sqlDate) {
+        setTimeInMillis(sqlDate.getTime());
+    }
+
+    
+    
     public int getDia() {
         return get(DAY_OF_MONTH);
     }
@@ -40,7 +47,11 @@ public class MiCalendario extends GregorianCalendar {
     
     @Override
     public String toString() {
-        return getDia()+"/"+getMes()+"/"+getAnio();
+        return String.format("%02d/%02d/%04d", getDia(), getMes(), getAnio());
+    }
+
+    public Date toSqlDate() {
+        return new Date(this.getTimeInMillis());
     }
     
     
