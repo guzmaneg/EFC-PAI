@@ -4,6 +4,7 @@
  */
 package persona;
 
+import calendario.MiCalendario;
 import java.util.Calendar;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,11 +14,14 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class Persona {
     
+    public static final String DELIM = "\t";
+    private static final int NAME_MAX_LENGTH = 20;
+    
     private int dni;
     private String nombre;
     private String apellido;
     private char sexo;
-    private Calendar fechaNac;
+    private MiCalendario fechaNac;
     // protected String email;
 
     public Persona() {
@@ -27,7 +31,7 @@ public abstract class Persona {
         setDni(dni);
     }
 
-    public Persona(int dni, String nombre, String apellido, char sexo, Calendar fechaNac) 
+    public Persona(int dni, String nombre, String apellido, char sexo, MiCalendario fechaNac) 
             throws PersonaInvalidaException, PersonaNombreException {
         setDni(dni);
         setNombre(nombre);
@@ -82,18 +86,26 @@ public abstract class Persona {
         this.sexo = sexo;
     }
 
-    public Calendar getFechaNac() {
+    public MiCalendario getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(Calendar fechaNac) {
+    public void setFechaNac(MiCalendario fechaNac) {
         this.fechaNac = fechaNac;
     }
 
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", "
-                + "sexo=" + sexo + ", fechaNac=" + fechaNac + '}';
+        String nombreStr = this.nombre.length()>NAME_MAX_LENGTH?this.nombre.substring(0, 20):
+                this.nombre;
+        String apellidoStr = this.apellido.length()>NAME_MAX_LENGTH?this.apellido.substring(0, 20):
+                this.apellido;
+        
+        return StringUtils.leftPad(String.valueOf(dni), 8, '0') + DELIM + 
+                StringUtils.rightPad(nombreStr, NAME_MAX_LENGTH, StringUtils.SPACE) + DELIM + 
+                StringUtils.rightPad(apellidoStr, NAME_MAX_LENGTH, StringUtils.SPACE) + DELIM + 
+                sexo + DELIM + 
+                fechaNac;
     }
     
     public abstract String getInfoPersona();

@@ -30,6 +30,10 @@ public class MiCalendario extends GregorianCalendar {
         this.setTimeInMillis(date.getTime());
     }
 
+    public MiCalendario(Calendar cal) {
+        this.setTimeInMillis(cal.getTimeInMillis());
+    }
+
     public int getDia() {
         return get(Calendar.DAY_OF_MONTH);
     }

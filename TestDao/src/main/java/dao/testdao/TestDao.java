@@ -40,14 +40,15 @@ public class TestDao {
             DAO<Alumno, Integer> dao;
             alumno = new Alumno(24004608);
             Map<String, String> configMap = new HashMap<>();
-/*
+
             configMap.put(DaoFactory.TIPO_DAO, DaoFactory.TIPO_DAO_TXT);
             configMap.put(DaoFactory.FILE_PATH, "alumnos.txt");
-*/            
+/*
             configMap.put(DaoFactory.TIPO_DAO, DaoFactory.TIPO_DAO_SQL);
             configMap.put(DaoFactory.URL_DB, "jdbc:mysql://localhost:3306/universidad");
             configMap.put(DaoFactory.USER_DB, "root");
             configMap.put(DaoFactory.PASS_DB, "root");
+*/
             dao = daoFactory.createDao(configMap);
             
             //dao = new AlumnoDaoSQL();

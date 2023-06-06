@@ -4,6 +4,7 @@
  */
 package persona;
 
+import calendario.MiCalendario;
 import java.util.Calendar;
 
 /**
@@ -28,11 +29,11 @@ public class Alumno extends Persona {
         super(dni);
     }
 
-    public Alumno(int dni, String nombre, String apellido, char sexo, Calendar fechaNac) throws PersonaInvalidaException, PersonaNombreException {
+    public Alumno(int dni, String nombre, String apellido, char sexo, MiCalendario fechaNac) throws PersonaInvalidaException, PersonaNombreException {
         super(dni, nombre, apellido, sexo, fechaNac);
     }
 
-    public Alumno(Calendar fechaIng, int cantMatAprob, double promedio, boolean activo, int dni, String nombre, String apellido, char sexo, Calendar fechaNac) throws PersonaInvalidaException, PersonaNombreException {
+    public Alumno(Calendar fechaIng, int cantMatAprob, double promedio, boolean activo, int dni, String nombre, String apellido, char sexo, MiCalendario fechaNac) throws PersonaInvalidaException, PersonaNombreException {
         super(dni, nombre, apellido, sexo, fechaNac);
         this.fechaIng = fechaIng;
         this.cantMatAprob = cantMatAprob;
@@ -78,6 +79,11 @@ public class Alumno extends Persona {
     public String getInfoPersona() {
         return "";
     }
-    
-    
+
+    @Override
+    public String toString() {
+        // TODO completar
+        return super.toString();
+    }
+  
 }

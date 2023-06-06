@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,8 +107,8 @@ public class AlumnoDaoTXT extends DAO<Alumno,Integer>{
     }
 
     @Override
-    public void deleteById(Integer id) {
-        // TODO borrado lógico
+    public void deleteById(Integer dni) {
+        System.out.println("DNI: "+dni);
     }
 
     @Override
@@ -117,7 +118,8 @@ public class AlumnoDaoTXT extends DAO<Alumno,Integer>{
 
     @Override
     public List<Alumno> findAll(boolean onlyActive) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return new ArrayList<>();
     }
 
     @Override

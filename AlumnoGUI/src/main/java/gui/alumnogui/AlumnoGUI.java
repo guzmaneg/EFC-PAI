@@ -4,19 +4,25 @@
  */
 package gui.alumnogui;
 
+import calendario.MiCalendario;
+import calendario.MiCalendarioException;
 import dao.AlumnoDaoSQL;
 import dao.AlumnoDaoTXT;
 import dao.DAO;
 import dao.DaoException;
 import dao.DaoFactory;
 import dao.DaoFactoryException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import persona.Alumno;
+import persona.PersonaInvalidaException;
+import persona.PersonaNombreException;
 
 /**
  *
@@ -28,14 +34,29 @@ public class AlumnoGUI extends javax.swing.JFrame {
     private AlumnoDaoTXT daoTxT;
     private AlumnoDaoSQL daoSQL;
     private static Map<String, String> configMap = new HashMap<>();
+    private AlumnoModel alumnoModel;
     
     /**
      * Creates new form AlumnoGUI
      */
-    public AlumnoGUI() {
-        initComponents();
-        setLocationRelativeTo(null);
-        setTitle("ABM Alumnos");
+    public AlumnoGUI() throws PersonaInvalidaException, PersonaNombreException {
+        try {
+            initComponents();
+            setLocationRelativeTo(null);
+            setTitle("ABM Alumnos");
+            
+            alumnoModel = new AlumnoModel();
+            alumnosTable.setModel(alumnoModel);
+            
+            List<Alumno> alumnos = new ArrayList<>();
+            alumnos.add(new Alumno(24004600, "Juan", "Perez", 'M', new MiCalendario(23, 8, 1974)));
+            alumnos.add(new Alumno(24004601, "Juana", "Gomez", 'F', new MiCalendario(1, 3, 2020)));
+            
+            alumnoModel.setAlumnos(alumnos);
+            
+        } catch (MiCalendarioException ex) {
+            Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -56,7 +77,7 @@ public class AlumnoGUI extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         gridPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        alumnosTable = new javax.swing.JTable();
         buttonsPanel = new javax.swing.JPanel();
         createButton = new javax.swing.JButton();
         updteButton = new javax.swing.JButton();
@@ -129,7 +150,7 @@ public class AlumnoGUI extends javax.swing.JFrame {
 
         gridPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        alumnosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -140,7 +161,7 @@ public class AlumnoGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(alumnosTable);
 
         buttonsPanel.setBackground(new java.awt.Color(204, 255, 255));
         buttonsPanel.setEnabled(false);
@@ -163,9 +184,19 @@ public class AlumnoGUI extends javax.swing.JFrame {
 
         viewButton.setText("Consultar");
         viewButton.setEnabled(false);
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Eliminar");
         deleteButton.setEnabled(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
         buttonsPanel.setLayout(buttonsPanelLayout);
@@ -305,35 +336,96 @@ public class AlumnoGUI extends javax.swing.JFrame {
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         try {
-            
-            AlumnoDTO dto = new AlumnoDTO();
-            AlumnoDialog dialog = new AlumnoDialog(this, true, dto);
+            AlumnoDialog dialog = new AlumnoDialog(this, true, false, null);
             dialog.setVisible(true);
-            
+
+            AlumnoDTO dto = dialog.getDto();
             System.out.println("DTO:"+dto.getNombre()+" - "+dto.getDni());
             
+            Alumno newAlu = null;
+            try {
+                newAlu = AlumnoMapper.dto2Alu(dto);
+            } catch (PersonaInvalidaException | PersonaNombreException ex) {
+                Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dao.create(newAlu);
             
-            dao.create(null);
+            // quitar
+            alumnoModel.getAlumnos().add(newAlu);
+
+            refreshTable();
+           
         } catch (DaoException ex) {
             Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void updteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updteButtonActionPerformed
-        try {
-            dao.update(null);
-        } catch (DaoException ex) {
-            Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        Alumno alumnoSeleccionado = getAlumnoFromTable();
+        if (alumnoSeleccionado!=null) {
+            AlumnoDialog dialog = new AlumnoDialog(this, true, false, AlumnoMapper.alu2Dto(alumnoSeleccionado));;
+            dialog.setVisible(true);
+            try {
+                Alumno alu = AlumnoMapper.dto2Alu(dialog.getDto());
+                try {
+                    dao.update(alu);
+                    refreshTable();
+                } catch (DaoException ex) {
+                    Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (PersonaInvalidaException | PersonaNombreException ex) {
+                Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getLocalizedMessage(), "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                dialog.setVisible(true);
+            }
         }
     }//GEN-LAST:event_updteButtonActionPerformed
 
+    private Alumno getAlumnoFromTable() {
+        int selectedRow = alumnosTable.getSelectedRow();
+        if (selectedRow<0) {
+            JOptionPane.showMessageDialog(this, "Error");
+            return null;
+        }
+        List<Alumno> alumnos = alumnoModel.getAlumnos();
+        return alumnos.get(selectedRow);
+    }
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        Alumno alumnoSeleccionado = getAlumnoFromTable();
+        if (alumnoSeleccionado!=null) {
+            int resp = JOptionPane.showConfirmDialog(this, "¿Está seguro eliminar el alumno?", "Eliminar", 
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (resp==JOptionPane.YES_OPTION) {
+                try {
+                    dao.deleteById(alumnoSeleccionado.getDni());
+                    refreshTable();
+                } catch (DaoException ex) {
+                    Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
+        Alumno alumnoSeleccionado = getAlumnoFromTable();
+        if (alumnoSeleccionado!=null) {
+            AlumnoDialog dialog = new AlumnoDialog(this, true, true, AlumnoMapper.alu2Dto(alumnoSeleccionado));
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_viewButtonActionPerformed
+
+    public void refreshTable() throws DaoException {
+        //alumnos.remove(selectedRow);
+        //alumnoModel.setAlumnos(dao.findAll(true));
+        alumnoModel.fireTableDataChanged();
+    }
+
     public void enableButtons(boolean enable) {
         createButton.setEnabled(enable);
-        /*
         updteButton.setEnabled(enable);
         viewButton.setEnabled(enable);
         deleteButton.setEnabled(enable);
-        */
     }
 
     /**
@@ -366,12 +458,17 @@ public class AlumnoGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AlumnoGUI().setVisible(true);
+                try {
+                    new AlumnoGUI().setVisible(true);
+                } catch (PersonaInvalidaException | PersonaNombreException ex) {
+                    Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable alumnosTable;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
@@ -382,7 +479,6 @@ public class AlumnoGUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton selectFileButton;
     private javax.swing.JComboBox<String> tipoRepoComboBox;
     private javax.swing.JButton updteButton;

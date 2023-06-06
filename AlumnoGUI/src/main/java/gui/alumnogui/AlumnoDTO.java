@@ -4,6 +4,8 @@
  */
 package gui.alumnogui;
 
+import calendario.MiCalendario;
+
 /**
  *
  * @author g.guzman
@@ -13,6 +15,16 @@ public class AlumnoDTO {
     private int dni;
     
     private String nombre;
+    
+    private MiCalendario fechaNac;
+
+    public MiCalendario getFechaNac() {
+        return fechaNac;
+    }
+
+    public void setFechaNac(MiCalendario fechaNac) {
+        this.fechaNac = fechaNac;
+    }
 
     public int getDni() {
         return dni;
