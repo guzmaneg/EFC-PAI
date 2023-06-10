@@ -22,7 +22,7 @@ public class AlumnoDaoTxt extends Dao<Alumno, Integer>{
 
     private RandomAccessFile raf;
     
-    public AlumnoDaoTxt(String fullPath) throws DaoException {
+    AlumnoDaoTxt(String fullPath) throws DaoException {
         try {
             raf = new RandomAccessFile(new File(fullPath), "rws");
         } catch (FileNotFoundException ex) {

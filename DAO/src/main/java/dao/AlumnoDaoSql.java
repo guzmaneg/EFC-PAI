@@ -31,7 +31,7 @@ public class AlumnoDaoSql extends Dao<Alumno, Integer>{
     private PreparedStatement psInsert;
     private PreparedStatement psSelect;
     
-    public AlumnoDaoSql(String url, String user, String pwd) throws DaoException {
+    AlumnoDaoSql(String url, String user, String pwd) throws DaoException {
         try {
             try {
                 // jdbc:mysql://localhost:3306/universidad_caba
