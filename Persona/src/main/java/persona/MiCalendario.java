@@ -31,6 +31,9 @@ public class MiCalendario extends GregorianCalendar {
         setTimeInMillis(sqlDate.getTime());
     }
 
+    public MiCalendario(Calendar cal) {
+        setTimeInMillis(cal.getTimeInMillis());
+    }
     
     
     public int getDia() {
