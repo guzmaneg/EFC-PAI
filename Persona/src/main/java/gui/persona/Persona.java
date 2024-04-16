@@ -15,13 +15,20 @@ public class Persona {
     private int dni;
     private String nombre;
     private String apellido;
-    private LocalDate fechaNac;
+    protected LocalDate fechaNac;
 
     // Suite de Contructores
     public Persona() {
+        nombre = "";
     }
+    
     public Persona(int dni) {
         this.dni = dni;
+    }
+    public Persona(int dni, String nombre, String apellido) throws PersonaException {
+        this.dni = dni;
+        setNombre(nombre);
+        this.apellido = apellido;
     }
     public Persona(int dni, String nombre, String apellido, LocalDate fechaNac) throws PersonaException {
         this.dni = dni;
@@ -29,7 +36,6 @@ public class Persona {
         this.apellido = apellido;
         this.fechaNac = fechaNac;
     }
-    
     
     // Getters and Setters
     public int getDni() {
@@ -47,7 +53,7 @@ public class Persona {
         return nombre.trim();
     }
 
-    public void setNombre(String nombre) throws PersonaException {
+    public final void setNombre(String nombre) throws PersonaException {
         if (nombre==null) {
             throw new PersonaException("El nombre NO puede ser null");
         }
@@ -86,6 +92,5 @@ public class Persona {
     public String toString() {
         return "DNI = "+this.dni+" - Nombre = "+this.getNombre(); 
     }
-    
     
 }
