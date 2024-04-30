@@ -10,16 +10,31 @@ package conversor;
  */
 public class MetroKmConversor extends AbstractConversor {
 
+    private static final int KM = 1000;
+    
     @Override
-    public Double convertirUnidad1Unidad2(Double valor1) {
+    public Double convertirUnidad1Unidad2(Double metros) {
         
-        throw new UnsupportedOperationException();
+        return metros / KM;
     }
     
     @Override
-    public Double convertirUnidad2Unidad1(Double pulg) {
+    public Double convertirUnidad2Unidad1(Double km) {
         
-        throw new UnsupportedOperationException();
+        return km * KM;
+    }
+
+    @Override
+    public String getName() {
+        return "Metro-Km";
     }
     
+    @Override
+    public String getLabel1() {
+        return "Metros:";
+    }
+    @Override
+    public String getLabel2() {
+        return "Km:";
+    }
 }

@@ -6,6 +6,8 @@ package conversor;
 
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
@@ -16,6 +18,10 @@ import javax.swing.JOptionPane;
 public class Conversor extends javax.swing.JFrame {
 
     private boolean convertirAPulgadas;
+    
+    private AbstractConversor conversorSeleccionado;
+
+    private List<AbstractConversor> conversores = new ArrayList<>();
 
     /**
      * Creates new form Conversor
@@ -24,6 +30,16 @@ public class Conversor extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Conversor");
+        
+        conversores.add(new CentPulgConversor());
+        conversores.add(new MetroKmConversor());
+        // Agregar más conversores
+        
+        
+        
+        for (AbstractConversor unConversor : conversores) {
+            jComboBoxConversores.addItem(unConversor.getName());
+        }
     }
 
     /**
@@ -73,9 +89,13 @@ public class Conversor extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxConversores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cent-Pulg", "Metro-KM", "Celcius-Far" }));
+        jComboBoxConversores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxConversoresActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setText("Seleccionar Conversión");
+        jLabel3.setText("Seleccionar Conversión:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,7 +129,7 @@ public class Conversor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxConversores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -139,14 +159,14 @@ public class Conversor extends javax.swing.JFrame {
 
     private void convertirAUnidad2() throws HeadlessException {
         // Convertir a Pulgadas
-        Double cent;
+        Double valor1;
         // String text = jTextFieldCent.getText().trim();
-        String text = jTextField1.getText();
+        String text = jTextField1.getText().replace(',', '.');
         try {
             if (text.toLowerCase().contains("f") || text.toLowerCase().contains("d")) {
                 throw new ConversorException("El texto contiene una f o una d");
             }
-            cent = Double.valueOf(text);
+            valor1 = Double.valueOf(text);
         } catch (NumberFormatException | ConversorException ex) {
             /*String errorMessage = ex instanceof ConversorException?
             ex.getLocalizedMessage()
@@ -160,10 +180,9 @@ public class Conversor extends javax.swing.JFrame {
             return;
         }
         
-        AbstractConversor conversor = new CentPulgConversor();
-        Double pulgadas = conversor.convertirUnidad1Unidad2(cent);
+        Double valor2 = conversorSeleccionado.convertirUnidad1Unidad2(valor1);
         //jTextFieldPulg.setText(String.format(Locale.UK, "%.2f", pulgadas));
-        jTextField2.setText(String.format(Locale.FRANCE, "%.2f", pulgadas));
+        jTextField2.setText(String.format(Locale.FRANCE, "%.2f", valor2));
         // Lacales es_AR es_ES fr_FR en_GB en_US en_AU
         //jTextFieldPulg.setText(String.format("%.2f", pulgadas));            
     }
@@ -181,6 +200,14 @@ public class Conversor extends javax.swing.JFrame {
             convertirAUnidad2();
         }
     }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jComboBoxConversoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxConversoresActionPerformed
+        int selectedIndex = jComboBoxConversores.getSelectedIndex();
+        conversorSeleccionado = conversores.get(selectedIndex);
+        
+        jLabel1.setText(conversorSeleccionado.getLabel1());
+        jLabel2.setText(conversorSeleccionado.getLabel2());
+    }//GEN-LAST:event_jComboBoxConversoresActionPerformed
 
     /**
      * @param args the command line arguments

@@ -22,5 +22,18 @@ public class CentPulgConversor extends AbstractConversor {
         
         return pulg*UNA_PULGADA;
     }
+
+    @Override
+    public String getName() {
+        return "Centímetro-Pulgada";
+    }
     
+    @Override
+    public String getLabel1() {
+        return "Centímetros:";
+    }
+    @Override
+    public String getLabel2() {
+        return "Pulgadas:";
+    }
 }
