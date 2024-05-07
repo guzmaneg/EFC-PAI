@@ -5,12 +5,15 @@
 package dao;
 
 import gui.persona.Alumno;
+import gui.persona.PersonaException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.AlumnoUtils;
 
 /**
  *
@@ -46,37 +49,107 @@ public class DaoTXT extends DAO<Alumno, Integer>{
 
     @Override
     public Alumno read(Integer dni) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            raf.seek(0);
+            String lineaAlu;
+            Integer dniAlu;
+            while ((lineaAlu = raf.readLine())!=null) {
+                dniAlu = Integer.valueOf(lineaAlu.substring(0, 8));
+                if (dniAlu.equals(dni)) {
+                    return AlumnoUtils.str2Alu(lineaAlu);
+                }
+            }
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error E/S ==> No se pudo leer el archivo"+ "("+ex.getLocalizedMessage()+")");
+        } catch (PersonaException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error al construir el alumno"+ "("+ex.getLocalizedMessage()+")");
+        }
     }
 
     @Override
     public void update(Alumno alu) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            long filePointer = 0;
+            raf.seek(filePointer);
+            String lineaAlu;
+            Integer dniAlu;
+            while ((lineaAlu = raf.readLine())!=null) {
+                dniAlu = Integer.valueOf(lineaAlu.substring(0, 8));
+                if (dniAlu.equals(alu.getDni())) {
+                    raf.seek(filePointer);
+                    raf.writeBytes(alu.toString());
+                    return;
+                }
+                filePointer = raf.getFilePointer();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error E/S ==> No se pudo leer el archivo"+ "("+ex.getLocalizedMessage()+")");
+        }        
     }
 
     @Override
     public void delete(Integer dni) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Alumno alu = read(dni);
+        alu.setEstado('B');
+        update(alu);
     }
 
     @Override
     public Alumno findById(Integer dni) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return read(dni);
     }
 
     @Override
-    public List<Alumno> findAll() throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Alumno> findAll(boolean solaActivos) throws DaoException {
+        List<Alumno> alumnos = new ArrayList<>();
+        try {
+            raf.seek(0);
+            String lineaAlu;
+            while ((lineaAlu = raf.readLine())!=null) {
+                // TODO solaActivos ??
+                alumnos.add(AlumnoUtils.str2Alu(lineaAlu));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error E/S ==> No se pudo leer el archivo"+ "("+ex.getLocalizedMessage()+")");
+        } catch (PersonaException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error al construir el alumno"+ "("+ex.getLocalizedMessage()+")");
+        }
+        
+        return alumnos;
     }
 
     @Override
     public void closeConnection() throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            raf.close();
+        } catch (IOException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error E/S ==> No se pudo cerrar el archivo"+ "("+ex.getLocalizedMessage()+")");
+        }
     }
 
     @Override
-    public boolean exist(Integer id) throws DaoException {
-        return false;
+    public boolean exist(Integer dni) throws DaoException {
+        try {
+            raf.seek(0);
+            String lineaAlu;
+            Integer dniAlu;
+            while ((lineaAlu = raf.readLine())!=null) {
+                dniAlu = Integer.valueOf(lineaAlu.substring(0, 8));
+                if (dniAlu.equals(dni)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(DaoTXT.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error E/S ==> No se pudo leer el archivo"+ "("+ex.getLocalizedMessage()+")");
+        }
     }
-    
 }

@@ -18,7 +18,7 @@ public abstract class DAO<T,K>{
     public abstract void delete(K id) throws DaoException;
     
     public abstract T findById(K id) throws DaoException;
-    public abstract List<T> findAll() throws DaoException;
+    public abstract List<T> findAll(boolean solaActivos) throws DaoException;
     
     public abstract boolean exist(K id) throws DaoException;
     
