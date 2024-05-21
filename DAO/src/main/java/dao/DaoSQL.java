@@ -5,9 +5,11 @@
 package dao;
 
 import gui.persona.Alumno;
+import gui.persona.PersonaException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,16 +25,21 @@ public class DaoSQL extends DAO<Alumno, Integer>{
     private final Connection connection;
 
     private final PreparedStatement insertPS;
+    private final PreparedStatement readPS;
     
-    public DaoSQL(String url, String user, String password) throws DaoException {
+    DaoSQL(String url, String user, String password) throws DaoException {
         try {
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Conectado OK a la BBDD");
 
-            String insertSql = "INSERT INTO `universidad`.`alumnos`\n" +
+            String insertSql = "INSERT INTO alumnos\n" +
                     "(`DNI`, `NOMBRE`, `APELLIDO`, `FEC_NAC`, `ESTADO`)\n" +
                     "VALUES(?, ?, ?, ?, ?);";
             insertPS = connection.prepareStatement(insertSql);
+
+            String readSql = "SELECT * FROM alumnos WHERE DNI = ?;";
+            readPS = connection.prepareStatement(readSql);
+
         } catch (SQLException ex) {
             Logger.getLogger(DaoSQL.class.getName()).log(Level.SEVERE, null, ex);
             throw new DaoException("Error SQL ==> No se pudo conectar a la BBDD");
@@ -58,7 +65,25 @@ public class DaoSQL extends DAO<Alumno, Integer>{
 
     @Override
     public Alumno read(Integer dni) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            readPS.setInt(1, dni);
+            ResultSet rs = readPS.executeQuery();
+            if (rs.next()) {
+                Alumno alumno = new Alumno();
+                alumno.setDni(rs.getInt("DNI"));
+                alumno.setNombre(rs.getString("NOMBRE"));
+                alumno.setFechaNac(AlumnoUtils.sqlDate2LocalDate(rs.getDate("FEC_NAC")));
+                
+                return alumno;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoSQL.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error SQL ==> No se pudo leer el alumno ("+ex.getLocalizedMessage()+")");
+        } catch (PersonaException ex) {
+            Logger.getLogger(DaoSQL.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoException("Error al crear el alumno ("+ex.getLocalizedMessage()+")");
+        }
+        return null;
     }
 
     @Override
@@ -88,6 +113,7 @@ public class DaoSQL extends DAO<Alumno, Integer>{
 
     @Override
     public boolean exist(Integer id) throws DaoException {
+        // TODO count(*)
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
