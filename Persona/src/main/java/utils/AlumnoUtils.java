@@ -38,4 +38,7 @@ public final class AlumnoUtils {
         return Date.valueOf(localDate);
     }
 
+    public static LocalDate sqlDate2LocalDate(Date sqlDate) {
+        return sqlDate.toLocalDate();
+    }
 }

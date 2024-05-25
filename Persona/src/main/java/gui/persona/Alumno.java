@@ -12,19 +12,20 @@ import java.util.List;
  * @author g.guzman
  */
 public class Alumno extends Persona {
-    
+
     private int legajo;
     private short cantMatAprob;
     private double promedio;
     private LocalDate fechaIng;
-    
+    private char estado = 'A';
+
     private List<Carrera> carreras;
 
     public Alumno() {
         super();
     }
 
-    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng, 
+    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng,
             List<Carrera> carreras) {
         this.legajo = legajo;
         this.cantMatAprob = cantMatAprob;
@@ -33,7 +34,7 @@ public class Alumno extends Persona {
         this.carreras = carreras;
     }
 
-    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng, 
+    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng,
             List<Carrera> carreras, int dni) {
         super(dni);
         this.legajo = legajo;
@@ -41,9 +42,9 @@ public class Alumno extends Persona {
         this.promedio = promedio;
         this.fechaIng = fechaIng;
         this.carreras = carreras;
-    }    
+    }
 
-    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng, 
+    public Alumno(int legajo, short cantMatAprob, double promedio, LocalDate fechaIng,
             List<Carrera> carreras, int dni, String nombre, String apellido, LocalDate fechaNac) throws PersonaException {
         super(dni, nombre, apellido, fechaNac);
         this.legajo = legajo;
@@ -52,8 +53,15 @@ public class Alumno extends Persona {
         setFechaIng(fechaIng);
         this.carreras = carreras;
     }
-    
-    
+
+    public char getEstado() {
+        return estado;
+    }
+
+    public void setEstado(char estado) {
+        this.estado = estado;
+    }
+
     public int getLegajo() {
         return legajo;
     }
@@ -75,7 +83,7 @@ public class Alumno extends Persona {
     }
 
     public void setPromedio(double promedio) {
-        
+
         this.promedio = promedio;
     }
 
@@ -84,7 +92,7 @@ public class Alumno extends Persona {
     }
 
     public void setFechaIng(LocalDate fechaIng) throws PersonaException {
-        if (fechaIng==null) {
+        if (fechaIng == null) {
             throw new PersonaException("La fecha de ingreso no puede ser nula");
         }
         if (fechaIng.isBefore(fechaNac)) {
@@ -100,8 +108,9 @@ public class Alumno extends Persona {
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
     }
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return super.toString() + Persona.DELIM + estado;
+    }
 }
