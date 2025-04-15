@@ -4,6 +4,11 @@
  */
 package persona;
 
+import exceptions.NombreNullException;
+import exceptions.DniPersonaException;
+import exceptions.NombreVacioException;
+
+
 /**
  *
  * @author g.guzman
@@ -14,18 +19,19 @@ public class Persona {
     private String nombre;
     private String apellido;
     private Short edad;
-    private Long cbu;
+    //private Long cbu;
 
     public Persona() {
-        cbu = 1L;
+        //cbu = 1L;
     }
 
-    public Persona(int dni) {
-        this.dni = dni;
+    public Persona(int dni) throws DniPersonaException {
+        setDni(dni);
+        this.edad = 99;
     }
 
-    public Persona(int dni, String nombre, String apellido) {
-        this.dni = dni;
+    public Persona(int dni, String nombre, String apellido) throws DniPersonaException {
+        setDni(dni);
         this.nombre = nombre;
         this.apellido = apellido;
     }
@@ -34,10 +40,10 @@ public class Persona {
         return dni;
     }
 
-    public void setDni(int dni) throws Exception {
+    public void setDni(int dni) throws DniPersonaException {
         if (dni<=0) {
             // Error
-            throw new Exception("El dni deber ser positivo");
+            throw new DniPersonaException("El dni deber ser positivo");
         }
         this.dni = dni;
     }
@@ -46,7 +52,14 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    // public void setNombre(String nombre) throws PersonaException {
+    public void setNombre(String nombre) throws NombreNullException, NombreVacioException {
+        if (nombre==null) {
+            throw new NombreNullException("El nombre NO debe ser null");
+        }
+        if (nombre.length()==0) {
+            throw new NombreVacioException("El nombre NO debe ser estar vacío");
+        }
         this.nombre = nombre;
     }
 
@@ -69,6 +82,7 @@ public class Persona {
         this.edad = edad;
     }
 
+    /*
     public Long getCbu() {
         return cbu;
     }
@@ -76,10 +90,10 @@ public class Persona {
     public void setCbu(Long cbu) {
         this.cbu = cbu;
     }
-
+*/
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", cbu=" + cbu + '}';
+        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + '}';
     }
 
     

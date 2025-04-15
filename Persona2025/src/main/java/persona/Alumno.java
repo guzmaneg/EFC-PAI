@@ -16,7 +16,7 @@ public class Alumno extends Persona {
         super();
     }
     
-    public Alumno(int dni, String nombre, String apellido, Double promedio) {
+    public Alumno(int dni, String nombre, String apellido, Double promedio) throws Exception {
         super(dni, nombre, apellido);
         this.promedio = promedio;
     }
@@ -33,9 +33,6 @@ public class Alumno extends Persona {
     public String toString() {
         return super.toString() + ", con Promedio = "+promedio; 
     }
-    
-    
-    
     
     
 }
