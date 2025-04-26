@@ -4,6 +4,9 @@
  */
 package testpersona;
 
+import exceptions.NombreNullException;
+import exceptions.NombreVacioException;
+import exceptions.PersonaException;
 import java.rmi.AccessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,26 +27,46 @@ public class TestPersona {
         Persona unaPersona = new Persona();
         try {
             unaPersona.setDni(656565);
-        } catch (IllegalArgumentException e) {
+        } catch (PersonaException e) {
             Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, e);
             return;
+        }
+        finally {
+            System.out.println("finally ejecutado");
         }
 
         // System.out.println("Persona: "+unaPersona);
         System.out.println("Persona con DNI: " + unaPersona.getDni());
 
         //////////////////////////////
-        Persona otraPersona = new Persona(555666777);
+        Persona otraPersona;
+        try {
+            otraPersona = new Persona(555666777);
+        } catch (PersonaException ex) {
+            Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
         System.out.println("Otra Persona con DNI: " + otraPersona.getDni());
         //////////////////////////////
 
         //////////////////////////////
-        Persona fullPersona = new Persona(555666777);
+        Persona fullPersona;
+        try {
+            fullPersona = new Persona(555666777);
+        } catch (PersonaException ex) {
+            Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
 
         try {
-            fullPersona.setNombre("Juan   ");
-        } catch (Exception ex) {
-            Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, ex);
+            fullPersona.setNombre(null);
+        } catch (PersonaException exception) {
+            if (exception instanceof NombreNullException) {
+                Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, exception);
+            }
+            else if (exception instanceof NombreVacioException) {
+                Logger.getLogger(TestPersona.class.getName()).log(Level.WARNING, null, exception);
+            }
         }
 
         fullPersona.setApellido("Perez   ");
@@ -60,25 +83,33 @@ public class TestPersona {
                 + fullPersona2.getFullName());
 
         ////////////////////////
-        Persona personaConNombreNull = new Persona(95959595);
+        //Persona personaConNombreNull = new Persona(95959595);
+        Persona personaConNombreNull = new Persona();
 
         try {
             //personaConNombreNull.setNombre(null);
             //personaConNombreNull.setNombre("");
-            personaConNombreNull.setNombre("peep");
+            personaConNombreNull.setNombre("María   ");
             ////////////////////////
-        } catch (IllegalArgumentException ex) {
+/*        } catch (NombreNullException ex) {
             Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, ex);
             return;
-        } catch (AccessException ex) {
+        } catch (NombreVacioException ex) {
             Logger.getLogger(TestPersona.class.getName()).log(Level.WARNING, null, ex);
-            return;
+            return;*/
+        }
+        catch (PersonaException ex) {
+            Logger.getLogger(TestPersona.class.getName()).log(Level.WARNING, null, ex);
         }
 
             
-        ////////////////////////
-        Persona alu = new Alumno();
-        Persona aluDni = new Alumno(7.25, 1551515);
+        try {
+            ////////////////////////
+            Persona aluDni = new Alumno(7.25, -1551515);
+        } catch (PersonaException ex) {
+            Logger.getLogger(TestPersona.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
         
         ////////////////////////
         System.out.println("Ejecuta FIN OK");

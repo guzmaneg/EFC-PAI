@@ -4,6 +4,8 @@
  */
 package persona;
 
+import exceptions.PersonaException;
+
 /**
  *
  * @author g.guzman
@@ -17,7 +19,7 @@ public class Alumno extends Persona {
         promedio = 0.0;
     }
 
-    public Alumno(Double promedio, Integer dni) {
+    public Alumno(Double promedio, Integer dni) throws PersonaException {
         super(dni);
         this.promedio = promedio;
     }

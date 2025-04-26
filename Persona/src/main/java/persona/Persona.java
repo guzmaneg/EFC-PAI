@@ -4,6 +4,9 @@
  */
 package persona;
 
+import exceptions.NombreNullException;
+import exceptions.NombreVacioException;
+import exceptions.PersonaException;
 import java.rmi.AccessException;
 
 /**
@@ -22,8 +25,8 @@ public class Persona {
         nombre = "";
     }
     
-    public Persona(Integer dni) {
-        this.dni = dni;
+    public Persona(Integer dni) throws PersonaException {
+        setDni(dni);
     }
 
     public Persona(Integer dni, String nombre, String apellido) {
@@ -36,9 +39,9 @@ public class Persona {
         return dni;
     }
 
-    public void setDni(Integer dni) throws IllegalArgumentException {
+    public void setDni(Integer dni) throws PersonaException {
         if (dni==null || dni <=0) {
-            throw new IllegalArgumentException("El DNI "+dni+" es inválido");
+            throw new PersonaException("El DNI "+dni+" es inválido");
         }
         this.dni = dni;
     }
@@ -47,14 +50,16 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws IllegalArgumentException, AccessException {
+    //public void setNombre(String nombre) throws NombreNullException, NombreVacioException {
+    public void setNombre(String nombre) throws PersonaException {
         if (nombre==null) {
-            throw new IllegalArgumentException("El nombre es nulo");
+            throw new NombreNullException("El nombre es nulo");
         }
-        if (nombre.length()==0) {
-            throw new AccessException("El nombre no tiene contenido");
+        String nombreTrim = nombre.trim();
+        if (nombreTrim.length()==0) {
+            throw new NombreVacioException("El nombre no tiene contenido");
         }
-        this.nombre = nombre.trim();
+        this.nombre = nombreTrim;
     }
 
     public String getApellido() {
