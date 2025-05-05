@@ -30,6 +30,7 @@ public class ConversorGUI extends javax.swing.JFrame {
         conversores = new ArrayList<>();
         conversores.add(new CentimetroPulgadaConversor());
         conversores.add(new MetroKmConversor());
+        conversores.add(new PesoRealConversor());
         // TODO: agragar mas tipos de conversores
         
         
@@ -90,6 +91,11 @@ public class ConversorGUI extends javax.swing.JFrame {
         pulgadasTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 pulgadasTextFieldFocusLost(evt);
+            }
+        });
+        pulgadasTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pulgadasTextFieldKeyPressed(evt);
             }
         });
 
@@ -185,6 +191,28 @@ public class ConversorGUI extends javax.swing.JFrame {
         pulgadasTextField.setText(String.format("%.2f", pulgadasDouble));
         //pulgadasTextField.setText(String.format(Locale.ENGLISH, "%.2f", pulgadasDouble));
     }
+    
+    private void convertirACentimetros() throws HeadlessException {
+        System.out.println("Presionó aPulgadasButtonActionPerformed !!");
+        // Tomar el valor del Textfield Pulgadas
+        String pulgText = pulgadasTextField.getText();
+        pulgText = pulgText.replace(',', '.');
+        Double pulgDouble;
+        try {
+            if (pulgText.contains("d") || pulgText.contains("D") ||
+                    pulgText.toLowerCase().contains("f")) {
+                throw new NumberFormatException();
+            }
+            pulgDouble = Double.valueOf(pulgText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo convertir el valor "+pulgText,
+                    "Error de formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Double centimetrosDouble = conversorSeleccionado.convertirValor2Valor1(pulgDouble);
+        centimetrosTextField.setText(String.format("%.2f", centimetrosDouble));
+        //pulgadasTextField.setText(String.format(Locale.ENGLISH, "%.2f", pulgadasDouble));
+    }
 
     private void aCentimetrosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aCentimetrosButtonActionPerformed
         System.out.println("Presionó aPulgadasButtonActionPerformed !!");
@@ -215,7 +243,7 @@ public class ConversorGUI extends javax.swing.JFrame {
             convertirAPulgadas();
         }
         else {
-            // TODO
+            convertirACentimetros();
         }
     }//GEN-LAST:event_convertirButtonActionPerformed
 
@@ -240,6 +268,12 @@ public class ConversorGUI extends javax.swing.JFrame {
         jLabel1.setText(conversorSeleccionado.getLabel1());
         jLabel2.setText(conversorSeleccionado.getLabel2());
     }//GEN-LAST:event_conversorComboBoxActionPerformed
+
+    private void pulgadasTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pulgadasTextFieldKeyPressed
+        if (evt.getKeyChar()==KeyEvent.VK_ENTER) {
+            convertirACentimetros();
+        }
+    }//GEN-LAST:event_pulgadasTextFieldKeyPressed
 
     /**
      * @param args the command line arguments
