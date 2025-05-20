@@ -1,7 +1,0 @@
-cuentas\Cuenta.class
-exceptions\DniPersonaException.class
-exceptions\PersonaException.class
-persona\Persona.class
-persona\Alumno.class
-exceptions\NombreVacioException.class
-exceptions\NombreNullException.class

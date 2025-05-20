@@ -7,6 +7,7 @@ package persona;
 import exceptions.NombreNullException;
 import exceptions.DniPersonaException;
 import exceptions.NombreVacioException;
+import java.time.LocalDate;
 
 
 /**
@@ -15,11 +16,14 @@ import exceptions.NombreVacioException;
  */
 public class Persona {
 
+    public static final char DELIM = '\t';
+    private static final int NOMBRE_MAX_LENGHT = 20;
+    
     private Integer dni;
     private String nombre;
     private String apellido;
-    private Short edad;
-    //private Long cbu;
+    private LocalDate fecNac;
+    private char estado; // A, B, M
 
     public Persona() {
         //cbu = 1L;
@@ -27,7 +31,6 @@ public class Persona {
 
     public Persona(int dni) throws DniPersonaException {
         setDni(dni);
-        this.edad = 99;
     }
 
     public Persona(int dni, String nombre, String apellido) throws DniPersonaException {
@@ -71,17 +74,6 @@ public class Persona {
         this.apellido = apellido;
     }
 
-    /**
-     * @return the edad
-     */
-    public Short getEdad() {
-        return edad;
-    }
-    
-    public void setEdad(Short edad) {
-        this.edad = edad;
-    }
-
     /*
     public Long getCbu() {
         return cbu;
@@ -91,9 +83,32 @@ public class Persona {
         this.cbu = cbu;
     }
 */
+
+    public LocalDate getFecNac() {
+        return fecNac;
+    }
+
+    public void setFecNac(LocalDate fecNac) {
+        this.fecNac = fecNac;
+    }
+    
+    public char getEstado() {
+        return estado;
+    }
+
+    public void setEstado(char estado) {
+        this.estado = estado;
+    }
+
+    
+    
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + '}';
+        String nombreTrunc = nombre.length()>NOMBRE_MAX_LENGHT?nombre.substring(0, NOMBRE_MAX_LENGHT):
+                                                nombre;
+        
+        return String.format("%08d%c%"+NOMBRE_MAX_LENGHT+"s%c%02d/%02d/%4d", dni, DELIM, nombreTrunc, DELIM,
+                fecNac.getDayOfMonth(), fecNac.getMonthValue(),fecNac.getYear());
     }
 
     

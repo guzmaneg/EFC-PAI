@@ -1,0 +1,3 @@
+00000025	Juan Erensto Estinis	23/08/1974	A
+00000026	Juan Erensto Estinis	23/08/1974	M
+00000027	Juan Erensto Estinis	23/08/1974	B

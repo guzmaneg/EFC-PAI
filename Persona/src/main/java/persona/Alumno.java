@@ -4,6 +4,9 @@
  */
 package persona;
 
+import exceptions.DniPersonaException;
+import java.time.LocalDate;
+
 /**
  *
  * @author g.guzman
@@ -11,12 +14,14 @@ package persona;
 public class Alumno extends Persona {
 
     private Double promedio;
-    
+    private Short cantMatAprob;
+    private LocalDate fecIng;
+
     public Alumno() {
         super();
     }
     
-    public Alumno(int dni, String nombre, String apellido, Double promedio) throws Exception {
+    public Alumno(int dni, String nombre, String apellido, Double promedio) throws DniPersonaException {
         super(dni, nombre, apellido);
         this.promedio = promedio;
     }
@@ -29,10 +34,22 @@ public class Alumno extends Persona {
         this.promedio = promedio;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + ", con Promedio = "+promedio; 
+    public Short getCantMatAprob() {
+        return cantMatAprob;
+    }
+
+    public void setCantMatAprob(Short cantMatAprob) {
+        this.cantMatAprob = cantMatAprob;
     }
     
+    @Override
+    public String toString() {
+        return super.toString(); // + info específica del alumno 
+    }
+    
+    public static Alumno str2Alu(String[] camposAlu) {
+
+        return null;
+    }
     
 }
