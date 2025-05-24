@@ -7,19 +7,20 @@ package persona;
 import exceptions.NombreNullException;
 import exceptions.NombreVacioException;
 import exceptions.PersonaException;
-import java.rmi.AccessException;
+import java.time.LocalDate;
 
 /**
  *
  * @author g.guzman
  */
 public class Persona {
-    
+
+    public final static String DELIM = "\t";
+            
     private Integer dni;
     private String nombre;
     private String apellido;
-    private Short edad;
-    //private Long cbu;
+    private LocalDate fecNac;
 
     public Persona() {
         nombre = "";
@@ -74,11 +75,25 @@ public class Persona {
         return nombre + " "+apellido;
     }
 
-    @Override
-    public String toString() {
-        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + '}';
+    public LocalDate getFecNac() {
+        return fecNac;
+    }
+
+    public void setFecNac(LocalDate fecNac) {
+        this.fecNac = fecNac;
     }
     
+    public String getFecNacStr(){
+        return String.format("%02d/%02d/%04d", fecNac.getDayOfMonth(), fecNac.getMonthValue(), 
+                fecNac.getYear());
+    }
     
+
+    @Override
+    public String toString() {
+        String nombreTrunc = nombre.length()>20?nombre.substring(0, 20):nombre;
+        return String.format("%08d%s%20s%s%20s%s%10s", dni, DELIM, nombreTrunc, DELIM, apellido,
+                DELIM, getFecNacStr());
+    }
     
 }
