@@ -16,6 +16,7 @@ public class Alumno extends Persona {
     private Double promedio;
     private Short cantMatAprob;
     private LocalDate fecIng;
+    private char estado; // A, B, M
 
     public Alumno() {
         super();
@@ -41,7 +42,17 @@ public class Alumno extends Persona {
     public void setCantMatAprob(Short cantMatAprob) {
         this.cantMatAprob = cantMatAprob;
     }
-    
+
+
+    public char getEstado() {
+        return estado;
+    }
+
+    public void setEstado(char estado) {
+        this.estado = estado;
+    }
+
+
     @Override
     public String toString() {
         return super.toString(); // + info específica del alumno 

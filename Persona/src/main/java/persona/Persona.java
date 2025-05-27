@@ -23,7 +23,6 @@ public class Persona {
     private String nombre;
     private String apellido;
     private LocalDate fecNac;
-    private char estado; // A, B, M
 
     public Persona() {
         //cbu = 1L;
@@ -91,16 +90,6 @@ public class Persona {
     public void setFecNac(LocalDate fecNac) {
         this.fecNac = fecNac;
     }
-    
-    public char getEstado() {
-        return estado;
-    }
-
-    public void setEstado(char estado) {
-        this.estado = estado;
-    }
-
-    
     
     @Override
     public String toString() {

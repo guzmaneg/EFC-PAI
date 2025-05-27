@@ -19,7 +19,7 @@ public abstract class DAO<T,K> {
     public abstract void update(T entity) throws DAOException;
     public abstract void delete(K id) throws DAOException;            
     
-    public abstract List<T> findAll() throws DAOException;
+    public abstract List<T> findAll(boolean includeDeleted) throws DAOException;
     public abstract boolean exist(K id) throws DAOException;
 
 }
