@@ -4,9 +4,13 @@
  */
 package dao;
 
+import exceptions.DniPersonaException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,7 +95,20 @@ public class AlumnoDAOTxt extends DAO<Alumno,Integer>{
 
     @Override
     public List<Alumno> findAll(boolean includeDeleted) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            List<Alumno> alumnos = new ArrayList<>();
+        try {
+            alumnos.add(new Alumno(1, "Juan", "Perez", 7.66));
+            alumnos.add(new Alumno(2, "María", "Gomez", 7.33));
+            alumnos.add(new Alumno(3, "Juana", "De Arco", 7.25));
+            
+            Alumno alumno = new Alumno(4, "Martín", "Palermo", 7.00);
+            alumno.setFecNac(LocalDate.of(1974, Month.AUGUST, 23));
+            alumnos.add(alumno);
+        } catch (DniPersonaException ex) {
+            Logger.getLogger(AlumnoDAOTxt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return alumnos;
     }
 
     @Override
@@ -112,6 +129,17 @@ public class AlumnoDAOTxt extends DAO<Alumno,Integer>{
         }
         
         return false;
+    }
+
+    @Override
+    public void closeConnection() throws DAOException {
+        if (raf!=null) {
+            try {
+                raf.close();
+            } catch (IOException ex) {
+                Logger.getLogger(AlumnoDAOTxt.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
 }

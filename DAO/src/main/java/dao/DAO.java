@@ -21,5 +21,7 @@ public abstract class DAO<T,K> {
     
     public abstract List<T> findAll(boolean includeDeleted) throws DAOException;
     public abstract boolean exist(K id) throws DAOException;
+    
+    public abstract void closeConnection() throws DAOException;
 
 }

@@ -140,5 +140,16 @@ public class AlumnoDAOSQL extends DAO<Alumno, Integer>{
     public boolean exist(Integer id) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void closeConnection() throws DAOException {
+        try {
+            if (connection!=null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnoDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
