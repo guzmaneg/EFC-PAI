@@ -22,7 +22,7 @@ public class AlumnoDAOTxt extends DAO<Alumno, Integer> {
 
     private RandomAccessFile raf;
     
-    public AlumnoDAOTxt(String fullpath) throws DAOException {
+    AlumnoDAOTxt(String fullpath) throws DAOException {
         try {
             raf = new RandomAccessFile(fullpath, "rws");
         } catch (FileNotFoundException ex) {
@@ -120,7 +120,12 @@ public class AlumnoDAOTxt extends DAO<Alumno, Integer> {
     }
 
     @Override
-    public List<Alumno> findAll() throws DAOException {
+    public List<Alumno> findAll(boolean includeDeleted) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void close() throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

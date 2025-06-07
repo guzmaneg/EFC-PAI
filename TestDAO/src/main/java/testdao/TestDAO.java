@@ -4,12 +4,17 @@
  */
 package testdao;
 
+import dao.AlumnoDAOSql;
 import dao.AlumnoDAOTxt;
 import dao.DAO;
 import dao.DAOException;
+import dao.DAOFactory;
+import dao.DAOFactoryException;
 import exceptions.PersonaException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persona.Alumno;
@@ -26,9 +31,25 @@ public class TestDAO {
     public static void main(String[] args) {
         DAO<Alumno, Integer> dao = null;
         try {
-            dao = new AlumnoDAOTxt("alumnos.txt");
+            DAOFactory factory = DAOFactory.getInstance();
+            // DAOFactory factory2 = DAOFactory.getInstance();
+            // DAOFactory factory3 = DAOFactory.getInstance();
+            
+            //dao = new AlumnoDAOTxt("alumnos.txt");
+            //dao = new AlumnoDAOSql(null, null, null);
+            String url = "jdbc:mysql://localhost:3306/caba";
+            
+            Map<String, String> config = new HashMap<>();
+            // config.put(DAOFactory.TIPO_DAO, "TIPO_DAO_TXT");
+            // config.put(DAOFactory.FULLPATH, "alumnos.txt");
+
+            config.put(DAOFactory.TIPO_DAO, "TIPO_DAO_SQL");
+            config.put(DAOFactory.URL_SQL, url);
+            
+            
+            dao = factory.buildDAO(config);
             Alumno alu = new Alumno();
-            alu.setDni(10);
+            alu.setDni(111);
             alu.setNombre("Juan");
             alu.setApellido("Perez");
             
@@ -37,14 +58,16 @@ public class TestDAO {
             dao.create(alu);
 
             Alumno alu2 = new Alumno();
-            alu2.setDni(12345678);
-            alu2.setNombre("Juanapppppppppppppppqwqwqwssasaas");
+            alu2.setDni(12345679);
+            alu2.setNombre("Ernesto");
             alu2.setApellido("Gonzalez");
             
             alu2.setFecNac(LocalDate.of(1999, 5, 10));
             dao.create(alu2);
 
         } catch (DAOException | PersonaException ex) {
+            Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOFactoryException ex) {
             Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
             ////////////////////
@@ -55,6 +78,17 @@ public class TestDAO {
         } catch (DAOException ex) {
             Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        List<Alumno> alumnos;
+        try {
+            alumnos = dao.findAll(true);
+        for (Alumno alumno : alumnos) {
+            System.out.println("Alumno leído con findAll: "+alumno);
+        }
+        } catch (DAOException ex) {
+            Logger.getLogger(TestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

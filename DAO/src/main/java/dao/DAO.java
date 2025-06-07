@@ -16,9 +16,10 @@ public abstract class DAO<T,K>{
     public abstract T read(K id) throws DAOException;
     public abstract void update(T entidad) throws DAOException;
     public abstract void delete(K id) throws DAOException;
-    //
     
     public abstract boolean exist(K id) throws DAOException;
     
-    public abstract List<T> findAll() throws DAOException;
+    public abstract List<T> findAll(boolean includeDeleted) throws DAOException;
+    
+    public abstract void close() throws DAOException;
 }
