@@ -15,7 +15,16 @@ public class AlumnoDTO {
     private Integer dni;
     private String nombre;
     private String apellido;
-    private String fecNac;
+    private String fecNacFormatted;
+    private LocalDate fecNac;
+
+    public LocalDate getFecNac() {
+        return fecNac;
+    }
+
+    public void setFecNac(LocalDate fecNac) {
+        this.fecNac = fecNac;
+    }
 
     public Integer getDni() {
         return dni;
@@ -41,12 +50,12 @@ public class AlumnoDTO {
         this.apellido = apellido;
     }
 
-    public String getFecNac() {
-        return fecNac;
+    public String getFecNacFormatted() {
+        return fecNacFormatted;
     }
 
-    public void setFecNac(String fecNac) {
-        this.fecNac = fecNac;
+    public void setFecNacFormatted(String fecNac) {
+        this.fecNacFormatted = fecNac;
     }
     
 }

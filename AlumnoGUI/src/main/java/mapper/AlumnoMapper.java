@@ -5,6 +5,9 @@
 package mapper;
 
 import dto.AlumnoDTO;
+import exceptions.DniPersonaException;
+import exceptions.NombreNullException;
+import exceptions.NombreVacioException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +26,22 @@ public class AlumnoMapper {
         dto.setApellido(alu.getApellido());
         
         LocalDate fecNac = alu.getFecNac();
-        dto.setFecNac(fecNac.getDayOfMonth()+"/"+fecNac.getMonthValue()+"/"+fecNac.getYear());
+        dto.setFecNacFormatted(fecNac.getDayOfMonth()+"/"+fecNac.getMonthValue()+"/"+fecNac.getYear());
         
         return dto;
     }
 
+    public static Alumno dto2Alu(AlumnoDTO dto) throws DniPersonaException, NombreNullException, NombreVacioException {
+        Alumno alu = new Alumno();
+        alu.setDni(dto.getDni());
+        alu.setNombre(dto.getNombre());
+        alu.setApellido(dto.getApellido());
+        
+        alu.setFecNac(dto.getFecNac());
+        
+        return alu;
+    }
+    
     public static List<AlumnoDTO> alumnos2Dtos(List<Alumno> alumnos) {
         List<AlumnoDTO> alumnosDto = new ArrayList<>();
         
@@ -38,7 +52,7 @@ public class AlumnoMapper {
             dto.setApellido(alu.getApellido());
 
             LocalDate fecNac = alu.getFecNac();
-            dto.setFecNac(fecNac.getDayOfMonth()+"/"+fecNac.getMonthValue()+"/"+fecNac.getYear());
+            dto.setFecNacFormatted(fecNac.getDayOfMonth()+"/"+fecNac.getMonthValue()+"/"+fecNac.getYear());
             alumnosDto.add(dto);
         }
         

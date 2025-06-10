@@ -7,7 +7,6 @@ package gui.alumnogui;
 import dto.AlumnoDTO;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import persona.Alumno;
 
 /**
  *
@@ -15,8 +14,12 @@ import persona.Alumno;
  */
 public class AlumnoModel extends AbstractTableModel {
 
-    private List<AlumnoDTO> alumnos;
     private final String[] encabezados = {"DNI", "Nombre", "Apellido", "Fec. Nac."};
+    private List<AlumnoDTO> alumnos;
+
+    public List<AlumnoDTO> getAlumnos() {
+        return alumnos;
+    }
 
     public void setAlumnos(List<AlumnoDTO> alumnos) {
         this.alumnos = alumnos;
@@ -51,7 +54,7 @@ public class AlumnoModel extends AbstractTableModel {
             case 2:
                 return alumno.getApellido();
             case 3:
-                return alumno.getFecNac();
+                return alumno.getFecNacFormatted();
         }
         return null;
     }
