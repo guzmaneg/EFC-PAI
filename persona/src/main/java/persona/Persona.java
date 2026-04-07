@@ -1,0 +1,87 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package persona;
+
+import exceptions.EdadInvalidaException;
+
+/**
+ *
+ * @author g.guzman
+ */
+public class Persona {
+    public static final int EDAD_PROMEDIO = 70;
+
+    private int dni;
+    private String nombre;
+    private String apellido;
+    private short edad;
+    // TODO: agregar fecNac;
+
+    public Persona() {
+        nombre = "";
+    }
+
+    public Persona(int dni) {
+        this.dni = dni;
+    }
+
+    public Persona(int dni, String nombre, String apellido) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public Persona(int dni, String nombre, String apellido, short edad) throws EdadInvalidaException {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        setEdad(edad);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public short getEdad() {
+        return edad;
+    }
+
+    public void setEdad(short edad) throws EdadInvalidaException {
+        if (edad<=0) {
+            throw new EdadInvalidaException("La edad debe ser mayor a cero");
+        }
+        this.edad = edad;
+    }
+
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "dni=" + dni +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", edad=" + edad +
+                '}';
+    }
+}
