@@ -5,13 +5,17 @@
 package persona;
 
 import exceptions.EdadInvalidaException;
+import exceptions.NombreApellidoInvalidoException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author g.guzman
  */
 public class Persona {
-    public static final int EDAD_PROMEDIO = 70;
+    public final static int EDAD_PROMEDIO = 70;
+    //public final int legajo = 1000;
+    //public static int STATIC = 800;
 
     private int dni;
     private String nombre;
@@ -27,15 +31,15 @@ public class Persona {
         this.dni = dni;
     }
 
-    public Persona(int dni, String nombre, String apellido) {
+    public Persona(int dni, String nombre, String apellido) throws NombreApellidoInvalidoException {
         this.dni = dni;
-        this.nombre = nombre;
+        setNombre(nombre);
         this.apellido = apellido;
     }
 
-    public Persona(int dni, String nombre, String apellido, short edad) throws EdadInvalidaException {
+    public Persona(int dni, String nombre, String apellido, short edad) throws EdadInvalidaException, NombreApellidoInvalidoException {
         this.dni = dni;
-        this.nombre = nombre;
+        setNombre(nombre);
         this.apellido = apellido;
         setEdad(edad);
     }
@@ -44,8 +48,11 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String nombre) throws NombreApellidoInvalidoException {
+        if (StringUtils.isBlank(nombre)) {
+            throw new NombreApellidoInvalidoException("El nombre es invalido");
+        }
+        this.nombre = nombre.trim();
     }
 
     public String getApellido() {
@@ -75,6 +82,7 @@ public class Persona {
         this.dni = dni;
     }
 
+    
     @Override
     public String toString() {
         return "Persona{" +
