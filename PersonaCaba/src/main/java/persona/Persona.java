@@ -5,6 +5,9 @@
 package persona;
 
 import exceptions.DniInvalidoException;
+import exceptions.NombreInvalidoException;
+import java.time.LocalDate;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -12,31 +15,15 @@ import exceptions.DniInvalidoException;
  */
 public class Persona {
     
+    public static final int MIN_EDAD = 0;
+    public static final int MAX_EDAD = 100;
+    
     private int dni;
     private String nombre;
     private String apellido;
     private short edad;
     private long cuil;
-
-    public short getEdad() {
-        return edad;
-    }
-
-    public void setEdad(short edad) throws Exception {
-        if (edad<0 || edad>100) {
-            throw new Exception("La edad "+edad+" es inválida");
-        }
-        
-        this.edad = edad;
-    }
-
-    public long getCuil() {
-        return cuil;
-    }
-
-    public void setCuil(long cuil) {
-        this.cuil = cuil;
-    }
+    private LocalDate fecNac;
 
     public Persona() {
     }
@@ -45,7 +32,7 @@ public class Persona {
         setDni(dni);
     }
 
-    public Persona(int dni, String nombre, String apellido) {
+    public Persona(int dni, String nombre, String apellido) throws DniInvalidoException {
         setDni(dni);
         this.nombre = nombre;
         this.apellido = apellido;
@@ -66,8 +53,12 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String nombre) throws NombreInvalidoException {
+        // if (nombre==null || nombre.isBlank()) {
+        if (StringUtils.isBlank(nombre)) {
+            throw new NombreInvalidoException("El nombre no tiene contenido");
+        }
+        this.nombre = nombre.trim();
     }
 
     public String getApellido() {
@@ -77,5 +68,41 @@ public class Persona {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+
+    public short getEdad() {
+        return edad;
+    }
+
+    public void setEdad(short edad) {
+        if (edad<MIN_EDAD || edad>MAX_EDAD) {
+            throw new IllegalArgumentException("La edad "+edad+" es invalida");
+        }
+        
+        this.edad = edad;
+    }
+
+    public long getCuil() {
+        return cuil;
+    }
+
+    public void setCuil(long cuil) {
+        this.cuil = cuil;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + '}';
+        //return super.toString();
+    }
+
+    public LocalDate getFecNac() {
+        return fecNac;
+    }
+
+    public void setFecNac(LocalDate fecNac) {
+        this.fecNac = fecNac;
+    }
+
+    
 
 }
