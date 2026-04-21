@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Persona {
     public final static int EDAD_PROMEDIO = 70;
-    //public final int legajo = 1000;
+    //public final int legajo;
     //public static int STATIC = 800;
 
     private int dni;
@@ -67,9 +67,11 @@ public class Persona {
         return edad;
     }
 
-    public void setEdad(short edad) throws EdadInvalidaException {
+//    public void setEdad(short edad) throws EdadInvalidaException {
+    public void setEdad(short edad) {
         if (edad<=0) {
-            throw new EdadInvalidaException("La edad debe ser mayor a cero");
+            //throw new EdadInvalidaException("La edad debe ser mayor a cero");
+            throw new IllegalArgumentException("La edad debe ser mayor a cero");
         }
         this.edad = edad;
     }

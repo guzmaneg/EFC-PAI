@@ -71,6 +71,8 @@ public class Alumno extends Persona {
     }
     
     public void setFecIng(LocalDate fecIng) {
+        // TODO validar contra fecNac, 18 años
+        // TODO Lanzar FecIngInvalidaException
         this.fecIng = fecIng;
     }
 

@@ -28,11 +28,11 @@ public class MainPersona {
             Logger.getLogger(MainPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
         unaPersona.setApellido("Doe");
-        try {
+//        try {
             unaPersona.setEdad((short) 15);
-        } catch (EdadInvalidaException e) {
-            System.out.println("Error setting age: " + e.getMessage());
-        }
+//        } catch (EdadInvalidaException e) {
+  //          System.out.println("Error setting age: " + e.getMessage());
+    //    }
         unaPersona.setDni(12345678);
         System.out.println("First Name: " + unaPersona.getNombre());
 
@@ -43,11 +43,11 @@ public class MainPersona {
             Logger.getLogger(MainPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
         otraPersona.setApellido("Smith");
-        try {
-            otraPersona.setEdad((short) 25);
-        } catch (EdadInvalidaException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+            otraPersona.setEdad((short) 0);
+  //      } catch (EdadInvalidaException e) {
+    //        throw new RuntimeException(e);
+      //  }
         System.out.println("otraPersona: " + otraPersona.toString());
         System.out.println("otraPersona: " + otraPersona);
 
@@ -57,11 +57,11 @@ public class MainPersona {
         } catch (NombreApellidoInvalidoException ex) {
             Logger.getLogger(MainPersona.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
+//        try {
             jose.setEdad((short) 40);
-        } catch (EdadInvalidaException e) {
-            throw new RuntimeException(e);
-        }
+  //      } catch (EdadInvalidaException e) {
+    //        throw new RuntimeException(e);
+      //  }
 
         Persona maria = null;
         try {
