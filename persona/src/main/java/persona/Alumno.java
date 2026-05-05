@@ -8,6 +8,7 @@ import exceptions.EdadInvalidaException;
 import exceptions.NombreApellidoInvalidoException;
 import exceptions.PromedioInvalidoException;
 import java.time.LocalDate;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Alumno extends Persona {
     private double promedio;
     private LocalDate fecIng;
     private short cantMatAprob;
+    private char estado; // A o B
 
     public Alumno() {
     }
@@ -63,7 +65,8 @@ public class Alumno extends Persona {
         if (fecIng==null) {
             return EMPTY_STRING;
         }
-        return EMPTY_STRING+fecIng.getDayOfMonth()+SLASH+fecIng.getMonthValue()+SLASH+fecIng.getYear();
+        String dayOfMonth = StringUtils.leftPad(String.valueOf(fecIng.getDayOfMonth()), 2, "0");
+        return EMPTY_STRING+dayOfMonth+SLASH+fecIng.getMonthValue()+SLASH+fecIng.getYear();
     }
     
     public LocalDate getFecIng() {
@@ -83,6 +86,15 @@ public class Alumno extends Persona {
     public void setCantMatAprob(short cantMatAprob) {
         this.cantMatAprob = cantMatAprob;
     }
+
+    public char getEstado() {
+        return estado;
+    }
+
+    public void setEstado(char estado) {
+        this.estado = estado;
+    }
+
     
     
     @Override
@@ -90,7 +102,5 @@ public class Alumno extends Persona {
         return super.toString() +
                 " Alumno{" + "promedio=" + promedio + ", fecIng=" + getFecIngStr() + ", cantMatAprob=" + cantMatAprob + '}';
     }
-
-    
 
 }
