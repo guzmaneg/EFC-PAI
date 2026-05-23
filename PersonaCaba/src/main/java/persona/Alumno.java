@@ -6,6 +6,7 @@ package persona;
 
 import exceptions.DniInvalidoException;
 import java.time.LocalDate;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -13,12 +14,17 @@ import java.time.LocalDate;
  */
 public class Alumno extends Persona {
     
-    private static final String SLASH = "/";
+    public static final String SLASH = "/";
     
     private short cantMatAprob;
     private double promedio;
     private LocalDate fecIng;
+    private char estado; // 'A' o 'B'
 
+    public Alumno() {
+    }
+
+    
     public Alumno(short cantMatAprob, double promedio, LocalDate fecIng) {
         this.cantMatAprob = cantMatAprob;
         this.promedio = promedio;
@@ -67,13 +73,23 @@ public class Alumno extends Persona {
     }
     
     public String getFecIngStr() {
-        return fecIng.getDayOfMonth()+SLASH+fecIng.getMonthValue()+SLASH+fecIng.getYear();
+        String dia = StringUtils.leftPad(String.valueOf(fecIng.getDayOfMonth()), 2, '0');
+        String mes = StringUtils.leftPad(String.valueOf(fecIng.getMonthValue()), 2, '0');
+        return dia+SLASH+mes+SLASH+fecIng.getYear();
     }
 
     @Override
     public String toString() {
         return super.toString() +
                 " - Alumno{" + "cantMatAprob=" + cantMatAprob + ", promedio=" + promedio + ", fecIng=" + this.getFecIngStr() + '}';
+    }
+
+    public char getEstado() {
+        return estado;
+    }
+
+    public void setEstado(char estado) {
+        this.estado = estado;
     }
     
     

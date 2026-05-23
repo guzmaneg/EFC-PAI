@@ -22,7 +22,7 @@ public class Persona {
     private String nombre;
     private String apellido;
     private short edad;
-    private long cuil;
+    //private long cuil;
     private LocalDate fecNac;
 
     public Persona() {
@@ -79,14 +79,6 @@ public class Persona {
         }
         
         this.edad = edad;
-    }
-
-    public long getCuil() {
-        return cuil;
-    }
-
-    public void setCuil(long cuil) {
-        this.cuil = cuil;
     }
 
     @Override
