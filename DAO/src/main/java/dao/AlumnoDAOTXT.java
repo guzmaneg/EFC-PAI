@@ -25,7 +25,7 @@ public class AlumnoDAOTXT extends DAO<Alumno,Integer> {
     
     private final RandomAccessFile raf;
     
-    public AlumnoDAOTXT(String pathfile) throws DAOException {
+    AlumnoDAOTXT(String pathfile) throws DAOException {
         try {
             raf = new RandomAccessFile(pathfile, "rws");
         } catch (FileNotFoundException ex) {
