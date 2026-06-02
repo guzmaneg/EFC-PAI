@@ -104,7 +104,7 @@ public class AlumnoDAOSQL extends DAO<Alumno,Integer> {
     }
 
     @Override
-    public List<Alumno> findAll(boolean soloActivos) throws DAOException {
+    public List<Alumno> findAll(boolean all) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
