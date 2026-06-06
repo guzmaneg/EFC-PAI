@@ -9,6 +9,8 @@ import exceptions.NombreInvalidoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,8 +87,19 @@ public class AlumnoDAOTXT extends DAO<Alumno,Integer> {
     }
 
     @Override
-    public List<Alumno> findAll() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Alumno> findAll(boolean incluirEliminados) throws DAOException {
+        List<Alumno> alumnos = new ArrayList<>();
+        
+        try {
+            alumnos.add(new Alumno((short)55, 7.33, LocalDate.MIN, 1, "Juan1", "Perez"));
+            alumnos.add(new Alumno((short)55, 7.33, LocalDate.MIN, 2, "Juan2", "Perez"));
+            alumnos.add(new Alumno((short)55, 7.33, LocalDate.MIN, 3, "Juan3", "Perez"));
+            alumnos.add(new Alumno((short)55, 7.33, LocalDate.MIN, 4, "Juan4", "Perez"));
+        } catch (DniInvalidoException ex) {
+            Logger.getLogger(AlumnoDAOTXT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return alumnos;
     }
 
     @Override
