@@ -13,6 +13,7 @@ import static dao.DAOFactory.FULLPATH;
 import static dao.DAOFactory.TIPO_DAO;
 import dao.DAOFactoryException;
 import exceptions.NombreApellidoInvalidoException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,6 +124,11 @@ public class AlumnoGUI extends javax.swing.JFrame {
         });
 
         consutarButton.setText("Consultar");
+        consutarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consutarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,7 +166,7 @@ public class AlumnoGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Repositorio:");
 
-        verTodosCheckBox.setText("Ver todos (incluye los eliminados)");
+        verTodosCheckBox.setText("Ver eliminados (todos (alta + Baja))");
 
         jLabel3.setText("Usuario:");
 
@@ -299,13 +305,22 @@ public class AlumnoGUI extends javax.swing.JFrame {
 
     private void crearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearButtonActionPerformed
         try {
-            alumnos.add(new Alumno(3, "María Ines", "Gomez"));
-            alumnosModel.fireTableDataChanged(); // refresh de la grilla
-        } catch (NombreApellidoInvalidoException ex) {
+            AlumnoDialog alumnoDialog = new AlumnoDialog(this, true, CrudOptionsEnum.CREATE);
+            alumnoDialog.setVisible(true);
+            
+            AlumnoDTO dto = alumnoDialog.getDto();
+            
+            if (dto!=null) {
+                dao.create(AlumnoMapper.dto2Entity(dto));
+            }
+            
+            //alumnos.add(new Alumno(3, "María Ines", "Gomez"));
+            //alumnosModel.fireTableDataChanged(); // refresh de la grilla
+        } catch (NombreApellidoInvalidoException | DAOException ex) {
             Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         
-        //dao.create(alu);
     }//GEN-LAST:event_crearButtonActionPerformed
 
     private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
@@ -347,15 +362,37 @@ public class AlumnoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_browseButtonActionPerformed
 
     private void setAlumnosInModel(final List<Alumno> alumnos1) {
+        alumnos = alumnos1;
         alumnosModel.setAlumnos(alumnos1);
         alumnosModel.fireTableDataChanged();
     }
 
     private void modificarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarButtonActionPerformed
+        int index = alumnosTable.getSelectedRow();
+        if (index>=0) {
+            Alumno alu = alumnos.get(index);
+            
+            // Simulación de la FecIng
+            alu.setFecIng(LocalDate.now().minusYears(15));
+            
+            AlumnoDialog alumnoDialog = new AlumnoDialog(this, true, CrudOptionsEnum.UPDATE);
+            alumnoDialog.setDto(AlumnoMapper.entity2Dto(alu));
+            alumnoDialog.setVisible(true);
         
-        
-        //dao.update(alu);
-        
+            AlumnoDTO dto = alumnoDialog.getDto();
+            
+            if (dto!=null) {
+                try {
+                    dao.update(AlumnoMapper.dto2Entity(dto));
+
+                } catch (DAOException | NombreApellidoInvalidoException ex) {
+                    Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado un alumno", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_modificarButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -371,6 +408,12 @@ public class AlumnoGUI extends javax.swing.JFrame {
             Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void consutarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consutarButtonActionPerformed
+        AlumnoDialog alumnoDialog = new AlumnoDialog(this, true, CrudOptionsEnum.READ);
+        alumnoDialog.setVisible(true);
+
+    }//GEN-LAST:event_consutarButtonActionPerformed
 
     /**
      * @param args the command line arguments

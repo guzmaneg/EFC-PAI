@@ -161,6 +161,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Consultar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consutarButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -187,7 +190,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="verTodosCheckBox">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ver todos (incluye los eliminados)"/>
+        <Property name="text" type="java.lang.String" value="Ver eliminados (todos (alta + Baja))"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="dbConnPanel">
