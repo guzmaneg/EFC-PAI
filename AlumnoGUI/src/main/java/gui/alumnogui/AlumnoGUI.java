@@ -10,6 +10,9 @@ import dao.DAO;
 import dao.DAOException;
 import dao.DAOFactory;
 import dao.DAOFactoryException;
+import exceptions.DniInvalidoException;
+import exceptions.NombreInvalidoException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,8 +96,18 @@ public class AlumnoGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(alumnosTable);
 
         crearButton.setText("Crear");
+        crearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearButtonActionPerformed(evt);
+            }
+        });
 
         modificarButton.setText("Modificar");
+        modificarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarButtonActionPerformed(evt);
+            }
+        });
 
         eliminarButton.setText("Eliminar");
         eliminarButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +117,11 @@ public class AlumnoGUI extends javax.swing.JFrame {
         });
 
         consultarButton.setText("Consultar");
+        consultarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout botoneraPanelLayout = new javax.swing.GroupLayout(botoneraPanel);
         botoneraPanel.setLayout(botoneraPanelLayout);
@@ -332,6 +350,44 @@ public class AlumnoGUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_browseButtonActionPerformed
+
+    private void crearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearButtonActionPerformed
+        AlumnoDialog dialog = new AlumnoDialog(this, true, CrudOptionEnum.CREATE);
+        dialog.setVisible(true);
+        
+        try {
+            AlumnoDto dto = dialog.getDto();
+            if (dto!=null) {
+                Alumno aluToCreate = AlumnoMapper.dto2Alu(dto);
+                dao.create(aluToCreate);
+            }
+        } catch (DAOException | DniInvalidoException | NombreInvalidoException ex) {
+            Logger.getLogger(AlumnoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_crearButtonActionPerformed
+
+    private void consultarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarButtonActionPerformed
+        AlumnoDialog dialog = new AlumnoDialog(this, true, CrudOptionEnum.READ);
+        dialog.setVisible(true);
+
+    }//GEN-LAST:event_consultarButtonActionPerformed
+
+    private void modificarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarButtonActionPerformed
+        int selectedRow = alumnosTable.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Nada Seleccionado", "Eliminar", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Alumno selectedAlu = alumnos.get(selectedRow);
+        
+        selectedAlu.setFecNac(LocalDate.now().minusYears(26)); // Simulacion  - TODO: Eliminar
+        
+        AlumnoDialog dialog = new AlumnoDialog(this, true, CrudOptionEnum.UPDATE);
+        dialog.setDto(AlumnoMapper.alu2Dto(selectedAlu));
+        
+        dialog.setVisible(true);
+
+    }//GEN-LAST:event_modificarButtonActionPerformed
 
     /**
      * @param args the command line arguments
